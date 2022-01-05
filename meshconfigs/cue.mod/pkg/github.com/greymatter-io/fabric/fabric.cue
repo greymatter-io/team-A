@@ -1,5 +1,5 @@
 // Core proto files
-package gm
+package fabric
 
 // import "google/protobuf/duration.proto";
 #Duration: {
