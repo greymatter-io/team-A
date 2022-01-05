@@ -6,13 +6,11 @@ Grey Matter mesh configuration objects are defined in CUE, and are patterned aft
 
 ## Project Layout
 
-```
-├── manifests: Kubernetes manifests to apply with kubectl (not managed by greymatter sync)
-└── meshconfigs: Mesh objects defined using a conventional CUE project structure
-    ├── cue.mod: Defines a CUE module for importing CUE dependencies
-    ├── cue: Templates that contain values shared across mesh objects of the same type
-    └── *.cue: Mesh objects that customize behavior for each service in the mesh.
-```
+- **manifests**: Kubernetes manifests to apply with kubectl (not managed by greymatter sync)
+- **meshconfigs**: Mesh objects defined using a conventional CUE project structure
+- **meshconfigs/cue.mod**: Defines a CUE module for importing CUE dependencies
+- **meshconfigs/default.cue**: Templates that contain values shared across mesh objects of the same type
+- **meshconfigs/*.cue**: Mesh objects that customize behavior for each service in the mesh.
 
 ## Manually running greymatter sync
 
