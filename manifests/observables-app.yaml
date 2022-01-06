@@ -28,9 +28,9 @@ spec:
         - name: BASE_PATH
           value: /services/observables-app/latest
         - name: ES_URL
-          value: es # TODO
+          value: https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com
         - name: ES_INDEX
-          value: vector # TODO
+          value: vector
         - name: ES_EDGE_TOPIC
           value: edge
         - name: TARGET_PRODUCT
@@ -42,13 +42,6 @@ spec:
             configMapKeyRef:
               name: observables-app-logo-base64
               key: logoBase64
-        # - name: ES_USER
-        #   value: elastic
-        # - name: ES_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       key: password
-        #       name: elasticsearch-pw
         resources: {}
 ---
 apiVersion: v1
