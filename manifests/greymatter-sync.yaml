@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: greymatter-sync
+  namespace: greymatter
+  annotations:
+    greymatter.io/egress-http-local: '["control", "catalog"]'
+spec:
+  selector:
+    matchLabels:
+      app: greymatter-sync
+  serviceName: "greymatter-sync"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: greymatter-sync
+    spec:
+      terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+      - name: docker.secret
+      volumes:
+      - name: ssh-private-key
+        secret:
+          secretName: greymatter-sync-secret
+      containers:
+      - name: greymatter-sync
+        image: docker.greymatter.io/internal/cli:sync
+        imagePullPolicy: Always
+        command: ["/usr/local/bin/greymatter"]
+        args:
+        - "-c"
+        - "/etc/greymatter/config.toml"
+        - "sync"
+        - "--cue"
+        - "--git"
+        - "--forever"
+        - "--interval"
+        - "30s"
+        - "--git-dir"
+        - "/var/lib/greymatter/checkout"
+        volumeMounts:
+        - name: ssh-private-key
+          readOnly: true
+          mountPath: "/var/lib/greymatter/.ssh"
+        env:
+        - name: SSH_KNOWN_HOSTS
+          value: "/tmp/known_hosts"
+        - name: GREYMATTER_GIT_REMOTE
+          valueFrom:
+            configMapKeyRef:
+              name: greymatter-sync-config
+              key: GREYMATTER_GIT_REMOTE
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: greymatter-sync-config
+  namespace: greymatter
+data:
+  # property-like keys; each key maps to a simple value
+  GREYMATTER_GIT_REMOTE: "git@github.com:greymatter-io/team-A.git"
