@@ -143,15 +143,3 @@ listeners: "edge-egress-tcp-to-gm-redis": {
 		}
 	}
 }
-
-catalogservices: "edge": {
-	name: "Grey Matter Edge"
-	description: "Handles north/south traffic flowing through the mesh."
-	api_endpoint: "/"
-	business_impact: "critical"
-	metadata: {
-    protocols: ["mTLS/HTTP"]
-    k8s_namespace: "greymatter"
-    k8s_service: "edge"
-	}
-}
