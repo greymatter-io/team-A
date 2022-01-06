@@ -3,19 +3,14 @@ kind: Deployment
 metadata:
   name: observables-app
   namespace: greymatter
-  labels:
-    greymatter.io/cluster: observables-app
-    app: observables-app
 spec:
   selector:
     matchLabels:
-      greymatter.io/cluster: observables-app
       app: observables-app
   template:
     metadata:
       labels:
         app: observables-app
-        greymatter.io/cluster: observables-app
     spec:
       containers:
       - name: service
