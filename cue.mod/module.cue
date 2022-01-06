@@ -1,1 +1,1 @@
-module: "github.com/greymatter-io/team-A"
+module: "team-a.io"

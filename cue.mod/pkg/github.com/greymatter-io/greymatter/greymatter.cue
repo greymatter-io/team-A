@@ -1,5 +1,5 @@
 // Core proto files
-package fabric
+package greymatter
 
 // import "google/protobuf/duration.proto";
 #Duration: {

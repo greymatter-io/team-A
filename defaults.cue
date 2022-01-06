@@ -1,20 +1,20 @@
 package mesh
 
-import "github.com/greymatter-io/fabric"
+import "github.com/greymatter-io/greymatter"
 
 #zone:          "default-zone"
 #allInterfaces: "0.0.0.0"
 #localhost:     "127.0.0.1"
 
 // Domain 
-domains: [Name=_]: fabric.#Domain & {
+domains: [Name=_]: greymatter.#Domain & {
 	name:       string | *"*"
 	domain_key: Name
 	zone_key:   #zone
 }
 
 // Listener
-listeners: [Name=_]: fabric.#Listener & {
+listeners: [Name=_]: greymatter.#Listener & {
 	name:         Name
 	listener_key: Name
 	zone_key:     #zone
@@ -23,22 +23,22 @@ listeners: [Name=_]: fabric.#Listener & {
 }
 
 // Cluster
-clusters: [Name=_]: fabric.#Cluster & {
+clusters: [Name=_]: greymatter.#Cluster & {
 	name:        Name
 	cluster_key: Name
 	zone_key:    #zone
 }
 
 // Proxy
-proxies: [Name=_]: fabric.#Proxy & {
+proxies: [Name=_]: greymatter.#Proxy & {
 	proxy_key: Name
 	name:      Name
 	zone_key:  #zone
 }
 
 // Route
-routes: [Name=_]: fabric.#Route & {
+routes: [Name=_]: greymatter.#Route & {
 	zone_key:    #zone
 	route_key:   Name
-	route_match: fabric.#RouteMatch | *{path: "/", match_type: "prefix"}
+	route_match: greymatter.#RouteMatch | *{path: "/", match_type: "prefix"}
 }
