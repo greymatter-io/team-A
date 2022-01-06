@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: observables-app
-  namespace: default
+  namespace: greymatter
   labels:
     greymatter.io/cluster: observables-app
     app: observables-app

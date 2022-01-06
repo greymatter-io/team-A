@@ -7,8 +7,8 @@ listeners: edge: {
 	domain_keys: ["edge"]
 	active_http_filters: [
 		"gm.metrics",
-		"gm.oidc-authentication",
-		"gm.ensure-variables",
+		// "gm.oidc-authentication",
+		// "gm.ensure-variables",
 	]
 	http_filters: {
 		gm_metrics: {
@@ -21,7 +21,7 @@ listeners: edge: {
 			metrics_key_function:                       "depth"
 			metrics_key_depth:                          "1"
 			metrics_receiver: {
-				redis_connection_string: "redis://:qWaDALklQ6ELOA@127.0.0.1:10910"
+				redis_connection_string: "redis://127.0.0.1:10910"
 				push_interval_seconds:   10
 			}
 		}
@@ -32,7 +32,7 @@ listeners: edge: {
 				"cookieOptions": {
 					"httpOnly": true
 					"maxAge":   "6h"
-					"domain":   "a6e293bb0b6ea4f0ab5082f30ae242b0-553823424.us-east-1.elb.amazonaws.com"
+					"domain":   "a5547cf9c55b54c57ade84dd00e18679-1645036037.us-east-1.elb.amazonaws.com"
 					// "domain":   "subdomain.greymatter.services"
 					"path": "/"
 				}
@@ -43,7 +43,7 @@ listeners: edge: {
 				"cookieOptions": {
 					"httpOnly": true
 					"maxAge":   "6h"
-					"domain":   "a6e293bb0b6ea4f0ab5082f30ae242b0-553823424.us-east-1.elb.amazonaws.com"
+					"domain":   "a5547cf9c55b54c57ade84dd00e18679-1645036037.us-east-1.elb.amazonaws.com"
 					// "domain":   "subdomain.greymatter.services"
 					"path": "/"
 				}
@@ -55,7 +55,7 @@ listeners: edge: {
 				"timeoutMs": 5000
 				"useTLS":    false
 			}
-			"serviceUrl":   "http://a6e293bb0b6ea4f0ab5082f30ae242b0-553823424.us-east-1.elb.amazonaws.com:10808"
+			"serviceUrl":   "http://a5547cf9c55b54c57ade84dd00e18679-1645036037.us-east-1.elb.amazonaws.com:10808"
 			"callbackPath": "/oauth"
 			"provider":     "http://keycloak.greymatter.services:8080/auth/realms/greymatter"
 			"clientId":     "edge"
