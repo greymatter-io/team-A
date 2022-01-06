@@ -1,7 +1,5 @@
 package mesh
 
-clusters: edge: {}
-
 domains: edge: port: 10808
 
 listeners: edge: {
