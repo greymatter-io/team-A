@@ -113,8 +113,6 @@ listeners: edge: {
 	}
 }
 
-clusters: edge: {}
-
 proxies: edge: {
 	domain_keys: ["edge", "edge-egress-tcp-to-gm-redis"]
 	listener_keys: ["edge", "edge-egress-tcp-to-gm-redis"]
