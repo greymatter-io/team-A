@@ -22,7 +22,7 @@ spec:
       volumes:
       - name: ssh-private-key
         secret:
-          secretName: greymatter-sync-secret-team-a
+          secretName: greymatter-sync-team-a-secret
       containers:
       - name: service
         image: docker.greymatter.io/internal/cli:sync
@@ -49,13 +49,13 @@ spec:
         - name: GREYMATTER_GIT_REMOTE
           valueFrom:
             configMapKeyRef:
-              name: greymatter-sync-config-team-a
+              name: greymatter-sync-team-a-config
               key: GREYMATTER_GIT_REMOTE
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: greymatter-sync-config-team-a
+  name: greymatter-sync-team-a-config
   namespace: greymatter
 data:
   # property-like keys; each key maps to a simple value

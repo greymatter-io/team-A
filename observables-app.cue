@@ -56,3 +56,8 @@ listeners: "observables-app-egress-tcp-to-gm-redis": {
 		}
 	}
 }
+
+catalogservices: "observables-app": {
+  name: "Grey Matter Observables"
+  description: "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
+}
