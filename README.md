@@ -19,5 +19,5 @@ While the GitOps sync loop is meant to be run from within a sync container, you 
 Provided that your greymatter CLI configuration file has the proper `api` and `catalog` values for connecting to each Grey Matter core service, run the following at the root of this repo to sync the mesh objects defined in this repo:
 
 ```bash
-greymatter sync --cue --relative-path meshconfigs
+greymatter sync --cue
 ```
