@@ -24,7 +24,7 @@ spec:
         secret:
           secretName: greymatter-sync-team-a-secret
       containers:
-      - name: service
+      - name: greymatter-sync
         image: docker.greymatter.io/internal/cli:sync
         imagePullPolicy: Always
         command: ["/usr/local/bin/greymatter"]
