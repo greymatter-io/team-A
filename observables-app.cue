@@ -97,7 +97,10 @@ listeners: "observables-app-egress-to-aws-es": {
 	domain_keys: ["observables-app-egress-to-aws-es"]
 }
 
-domains: "observables-app-egress-to-aws-es": port: 9200
+domains: "observables-app-egress-to-aws-es": {
+	port: 9200
+	force_https: true
+}
 
 clusters: "observables-app-to-aws-es": {
 	name: "observables-app-to-aws-es"
