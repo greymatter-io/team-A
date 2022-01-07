@@ -12,11 +12,7 @@ metadata:
   namespace: vector
   labels:
     app.kubernetes.io/instance: vector
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: vector-agent
-    app.kubernetes.io/part-of: vector-agent
-    app.kubernetes.io/version: 0.0.0
-    helm.sh/chart: vector-agent-0.0.0
 spec:
   selector:
     matchLabels:
@@ -103,17 +99,8 @@ spec:
             path: /var/lib/vector/
             type: ''
         - name: config-dir
-          projected:
-            sources:
-              - configMap:
-                  name: vector-agent
-              - configMap:
-                  name: vector-agent-config-36
-                  optional: true
-              - secret:
-                  name: vector-agent-config
-                  optional: true
-            defaultMode: 0640
+          configMap:
+            name: vector-agent-config
         - name: procfs
           hostPath:
             path: /proc
@@ -144,24 +131,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: vector-agent
-  namespace: vector
-  labels:
-    app.kubernetes.io/instance: vector
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: vector-agent
-    app.kubernetes.io/part-of: vector-agent
-    app.kubernetes.io/version: 0.0.0
-    helm.sh/chart: vector-agent-0.0.0
-data:
-  managed.toml: |
-
----
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: vector-agent-config-36
+  name: vector-agent-config
   namespace: vector
 data:
   vector.toml: |
@@ -196,7 +166,7 @@ data:
 
     # parse observable JSON out of the Kubernetes log, and coerce the timestamp
     # value from ms to an actual timestamp
-    [transforms.modify]
+    [transforms.events_only]
     type = "remap"
     inputs = ["observables_only"]
     source = '''
@@ -207,7 +177,7 @@ data:
 
     [sinks.es]
     type = "elasticsearch"
-    inputs = ["modify"]
+    inputs = ["events_only"]
     endpoint = "https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
     index = "vector"
     mode = "normal"
@@ -215,7 +185,7 @@ data:
 
     [sinks.stdout]
     type = "console"
-    inputs = [ "modify" ]
+    inputs = [ "events_only" ]
     target = "stdout"
     encoding.codec = "json"
 ---
