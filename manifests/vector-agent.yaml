@@ -1,0 +1,249 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vector
+
+---
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vector-agent
+  namespace: vector
+  labels:
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/name: vector-agent
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: vector
+      app.kubernetes.io/name: vector-agent
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: vector
+        app.kubernetes.io/name: vector-agent
+        vector.dev/exclude: 'true'
+    spec:
+      containers:
+        - name: vector
+          image: timberio/vector:0.16.1-debian
+          args:
+            - '--config-dir'
+            - /etc/vector/
+          ports:
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          env:
+            - name: VECTOR_SELF_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: VECTOR_SELF_POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: VECTOR_SELF_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: PROCFS_ROOT
+              value: /host/proc
+            - name: SYSFS_ROOT
+              value: /host/sys
+            - name: LOG
+              value: info
+                #- name: ELASTICSEARCH_PASSWORD
+                #  valueFrom:
+                #    secretKeyRef:
+                #      name: elasticsearch-password
+                #      key: password
+          resources: {}
+          volumeMounts:
+            - name: var-log
+              readOnly: true
+              mountPath: /var/log/
+            - name: var-lib
+              readOnly: true
+              mountPath: /var/lib
+            - name: data-dir
+              mountPath: /vector-data-dir
+            - name: config-dir
+              readOnly: true
+              mountPath: /etc/vector
+            - name: procfs
+              readOnly: true
+              mountPath: /host/proc
+            - name: sysfs
+              readOnly: true
+              mountPath: /host/sys
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+          securityContext: {}
+      volumes:
+        - name: var-log
+          hostPath:
+            path: /var/log/
+            type: ''
+        - name: var-lib
+          hostPath:
+            path: /var/lib/
+            type: ''
+        - name: data-dir
+          hostPath:
+            path: /var/lib/vector/
+            type: ''
+        - name: config-dir
+          configMap:
+            name: vector-agent-config
+        - name: procfs
+          hostPath:
+            path: /proc
+            type: ''
+        - name: sysfs
+          hostPath:
+            path: /sys
+            type: ''
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+      dnsPolicy: ClusterFirst
+      serviceAccountName: vector-agent
+      serviceAccount: vector-agent
+      securityContext: {}
+      schedulerName: default-scheduler
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  minReadySeconds: 1
+  revisionHistoryLimit: 10
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vector-agent-config
+  namespace: vector
+data:
+  vector.toml: |
+    data_dir = "/vector-data-dir"
+
+    [api]
+      enabled = false
+      address = "0.0.0.0:8686"
+      playground = true
+
+    [log_schema]
+      host_key = "host"
+      message_key = "message"
+      source_type_key = "source_type"
+      timestamp_key = "timestamp"
+
+    [sources.file]
+    type = "file"
+    include = ["/var/log/pods/greymatter*/sidecar/*.log", "/var/log/pods/greymatter_edge*/edge/*.log"]
+    ignore_older = 1200
+    remove_after_secs = 3600
+
+    # parse the log for the "eventId" string, indicating that it is 
+    # a Grey Matter Observable log
+    [transforms.observables_only]
+    type = "filter"
+    inputs = ["file"]
+    condition = '''
+    _, err = parse_regex(.message, r'eventId')
+    . = err == null
+    '''
+
+    # parse observable JSON out of the Kubernetes log, and coerce the timestamp
+    # value from ms to an actual timestamp
+    [transforms.events_only]
+    type = "remap"
+    inputs = ["observables_only"]
+    source = '''
+    . |= parse_regex!(.message, r'^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z stdout F (?P<event>.*)$')
+    . = parse_json!(.event)
+    .timestamp, err = to_timestamp(.timestamp)
+    '''
+
+    [sinks.es]
+    type = "elasticsearch"
+    inputs = ["events_only"]
+    endpoint = "https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+    index = "vector"
+    mode = "normal"
+    compression = "none"
+
+    #[sinks.stdout]
+    #type = "console"
+    #inputs = [ "events_only" ]
+    #target = "stdout"
+    #encoding.codec = "json"
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vector-agent
+  namespace: vector
+  labels:
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/name: vector-agent
+secrets:
+  - name: vector-agent-token
+automountServiceAccountToken: true
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vector-agent
+  namespace: vector
+rules:
+  - verbs:
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - namespaces
+      - pods
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vector-agent
+  namespace: vector
+  labels:
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/name: vector-agent
+subjects:
+  - kind: ServiceAccount
+    name: vector-agent
+    namespace: vector
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: vector-agent
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vector-agent-token
+  namespace: vector
+  annotations:
+    kubernetes.io/service-account.name: vector-agent
+type: kubernetes.io/service-account-token
