@@ -155,9 +155,16 @@ metadata:
     helm.sh/chart: vector-agent-0.0.0
 data:
   managed.toml: |
-    # Configuration for vector.
-    # Docs: https://vector.dev/docs/
 
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vector-agent-config-36
+  namespace: vector
+data:
+  vector.toml: |
     data_dir = "/vector-data-dir"
 
     [api]
@@ -171,114 +178,46 @@ data:
       source_type_key = "source_type"
       timestamp_key = "timestamp"
 
-    # Ingest logs from Kubernetes.
-    [sources.kubernetes_logs]
-      type = "kubernetes_logs"
-
-    # Capture the metrics from the host.
-    [sources.host_metrics]
-      type = "host_metrics"
-      [sources.host_metrics.filesystem]
-        [sources.host_metrics.filesystem.devices]
-          excludes = ["binfmt_misc"]
-        [sources.host_metrics.filesystem.filesystems]
-          excludes = ["binfmt_misc"]
-        [sources.host_metrics.filesystem.mountpoints]
-          excludes = ["*/proc/sys/fs/binfmt_misc"]
-
-
-    # Emit internal Vector metrics.
-    [sources.internal_metrics]
-      type = "internal_metrics"
-
-    # Expose metrics for scraping in the Prometheus format.
-    [sinks.prometheus_sink]
-      address = "0.0.0.0:9090"
-      inputs = ["internal_metrics", "host_metrics"]
-      type = "prometheus"
-
----
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: vector-agent-config-36
-  namespace: vector
-data:
-  vector.toml: >
     [sources.file]
-
     type = "file"
-
-    include = ["/var/log/pods/greymatter*/sidecar/*.log",
-    "/var/log/pods/greymatter_edge*/edge/*.log"]
-
+    include = ["/var/log/pods/greymatter*/sidecar/*.log", "/var/log/pods/greymatter_edge*/edge/*.log"]
     ignore_older = 1200
-
     remove_after_secs = 3600
 
-
     # parse the log for the "eventId" string, indicating that it is 
-
     # a Grey Matter Observable log
-
     [transforms.observables_only]
-
     type = "filter"
-
     inputs = ["file"]
-
     condition = '''
-
-    . |= parse_regex!(.message, r'(?P<obsMatch>eventId)')
-
-    . = .obsMatch != null
-
+    _, err = parse_regex(.message, r'eventId')
+    . = err == null
     '''
-
 
     # parse observable JSON out of the Kubernetes log, and coerce the timestamp
-
     # value from ms to an actual timestamp
-
     [transforms.modify]
-
     type = "remap"
-
     inputs = ["observables_only"]
-
     source = '''
-
-    . |= parse_regex!(.message, r'^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z stdout F
-    (?P<event>.*)$')
-
+    . |= parse_regex!(.message, r'^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z stdout F (?P<event>.*)$')
     . = parse_json!(.event)
-
     .timestamp, err = to_timestamp(.timestamp)
-
     '''
 
-
     [sinks.es]
-
     type = "elasticsearch"
-
     inputs = ["modify"]
-
-    endpoint = "https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com:9200"
-
+    endpoint = "https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
     index = "vector"
-
     mode = "normal"
-
     compression = "none"
 
-    #auth.strategy = "basic"
-
-    #auth.user = "elastic"
-
-    #auth.password = "${ELASTICSEARCH_PASSWORD}"
-
+    [sinks.stdout]
+    type = "console"
+    inputs = [ "modify" ]
+    target = "stdout"
+    encoding.codec = "json"
 ---
 
 apiVersion: v1
