@@ -41,8 +41,8 @@ listeners: "observables-app": {
 }
 
 proxies: "observables-app": {
-	domain_keys: ["observables-app", "observables-app-egress-tcp-to-gm-redis"]
-	listener_keys: ["observables-app", "observables-app-egress-tcp-to-gm-redis"]
+	domain_keys: ["observables-app", "observables-app-egress-tcp-to-gm-redis", "observables-app-egress-to-aws-es"]
+	listener_keys: ["observables-app", "observables-app-egress-tcp-to-gm-redis", "observables-app-egress-to-aws-es"]
 }
 
 domains: "observables-app-egress-tcp-to-gm-redis": port: 10910
@@ -69,6 +69,38 @@ listeners: "observables-app-egress-tcp-to-gm-redis": {
 			stat_prefix: "gm-redis"
 		}
 	}
+}
+
+routes: "observables-app-egress-to-aws-es": {
+	domain_key: "observables-app-egress-to-aws-es"
+	rules: [{
+		constraints: {
+			light: [{
+				cluster_key: "observables-app-to-aws-es"
+				weight:      1
+			}]
+		}
+	}]
+	route_match: {
+		path: "/es"
+		match_type: "prefix"
+	}
+}
+
+listeners: "observables-app-egress-to-aws-es": {
+	port: 9200
+	domain_keys: ["observables-app-egress-to-aws-es"]
+}
+
+domains: "observables-app-egress-to-aws-es": port: 9200
+
+clusters: "observables-app-to-aws-es": {
+	name: "observables-app-to-aws-es"
+	zone_key: "default-zone"
+	instances: [{
+		host: "https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com/",
+		port: 8443
+	}]
 }
 
 catalogservices: "observables-app": {
