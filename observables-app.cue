@@ -7,6 +7,7 @@ listeners: "observables-app": {
 	domain_keys: ["observables-app"]
 	active_http_filters: [
 		"gm.metrics",
+		"gm.observables",
 	]
 	http_filters: {
 		gm_metrics: {
@@ -22,6 +23,9 @@ listeners: "observables-app": {
 				redis_connection_string: "redis://127.0.0.1:10910"
 				push_interval_seconds:   10
 			}
+		}
+		gm_observables: {
+			topic: "observables-app"
 		}
 	}
 	secret: {

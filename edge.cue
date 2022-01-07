@@ -7,8 +7,8 @@ listeners: edge: {
 	domain_keys: ["edge"]
 	active_http_filters: [
 		"gm.metrics",
-		"gm.oidc-authentication",
-		"gm.ensure-variables",
+		// "gm.oidc-authentication",
+		// "gm.ensure-variables",
 	]
 	http_filters: {
 		gm_metrics: {
