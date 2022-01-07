@@ -197,11 +197,7 @@ metadata:
   namespace: vector
   labels:
     app.kubernetes.io/instance: vector
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: vector-agent
-    app.kubernetes.io/part-of: vector-agent
-    app.kubernetes.io/version: 0.0.0
-    helm.sh/chart: vector-agent-0.0.0
 secrets:
   - name: vector-agent-token
 automountServiceAccountToken: true
@@ -232,9 +228,6 @@ metadata:
   labels:
     app.kubernetes.io/instance: vector
     app.kubernetes.io/name: vector-agent
-    app.kubernetes.io/part-of: vector-agent
-    app.kubernetes.io/version: 0.0.0
-    helm.sh/chart: vector-agent-0.0.0
 subjects:
   - kind: ServiceAccount
     name: vector-agent
