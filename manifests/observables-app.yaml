@@ -21,9 +21,9 @@ spec:
           protocol: TCP
         env:
         - name: BASE_PATH
-          value: /services/observables-app/latest
+          value: /services/observables-app/
         - name: ES_URL
-          value: https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.co
+          value: es # our Node.js backend hits localhost:9200, which proxies out to our external ES cluster.
         - name: ES_INDEX
           value: vector
         - name: ES_EDGE_TOPIC
