@@ -2,7 +2,7 @@ package mesh
 
 import "github.com/greymatter-io/greymatter"
 
-#mesh:					"mesh-sample"
+#mesh:          "mesh-sample"
 #zone:          "default-zone"
 #allInterfaces: "0.0.0.0"
 #localhost:     "127.0.0.1"
@@ -46,6 +46,6 @@ routes: [Name=_]: greymatter.#Route & {
 
 // Catalog Service
 catalogservices: [Name=_]: {
-	mesh_id: #mesh
+	mesh_id:    #mesh
 	service_id: Name
 }

@@ -23,7 +23,7 @@ spec:
         - name: BASE_PATH
           value: /services/observables-app/latest
         - name: ES_URL
-          value: https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com
+          value: https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.co
         - name: ES_INDEX
           value: vector
         - name: ES_EDGE_TOPIC
