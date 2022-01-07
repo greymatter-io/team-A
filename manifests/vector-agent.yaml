@@ -183,11 +183,11 @@ data:
     mode = "normal"
     compression = "none"
 
-    [sinks.stdout]
-    type = "console"
-    inputs = [ "events_only" ]
-    target = "stdout"
-    encoding.codec = "json"
+    #[sinks.stdout]
+    #type = "console"
+    #inputs = [ "events_only" ]
+    #target = "stdout"
+    #encoding.codec = "json"
 ---
 
 apiVersion: v1
