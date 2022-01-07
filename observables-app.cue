@@ -103,7 +103,7 @@ clusters: "observables-app-to-aws-es": {
 	name: "observables-app-to-aws-es"
 	zone_key: "default-zone"
 	instances: [{
-		host: "https://vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com/",
+		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com",
 		port: 8443
 	}]
 }
