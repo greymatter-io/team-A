@@ -45,8 +45,16 @@ listeners: "observables-app": {
 }
 
 proxies: "observables-app": {
-	domain_keys: ["observables-app", "observables-app-egress-tcp-to-gm-redis", "observables-app-egress-to-aws-es"]
-	listener_keys: ["observables-app", "observables-app-egress-tcp-to-gm-redis", "observables-app-egress-to-aws-es"]
+	domain_keys: [
+		"observables-app",
+		"observables-app-egress-tcp-to-gm-redis",
+		"observables-app-egress-to-aws-es"
+	]
+	listener_keys: [
+		"observables-app",
+		"observables-app-egress-tcp-to-gm-redis",
+		"observables-app-egress-to-aws-es"
+	]
 }
 
 domains: "observables-app-egress-tcp-to-gm-redis": port: 10910
