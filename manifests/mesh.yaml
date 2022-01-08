@@ -1,0 +1,20 @@
+apiVersion: greymatter.io/v1alpha1
+kind: Mesh
+metadata:
+  name: mesh-sample
+spec:
+  release_version: '1.7'
+  zone: default-zone
+  install_namespace: greymatter
+  watch_namespaces:
+  - team-b
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: greymatter
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-b
