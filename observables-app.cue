@@ -108,7 +108,13 @@ listeners: "observables-app-egress-to-aws-es": {
 domains: "observables-app-egress-to-aws-es": {
 	port: 9200
 	ssl_config: {}
-	force_https: false
+	force_https: true
+	custom_headers:[
+		{
+			key: "x-forwarded-proto",
+			value: "https"
+		}
+	]
 }
 
 clusters: "observables-app-to-aws-es": {
