@@ -128,7 +128,7 @@ clusters: "observables-app-to-aws-es": {
 		protocols: [{"TLSv1.2"}]
 		require_client_certs: false
 	}
-	require_tls: true
+	require_tls: false
 }
 
 catalogservices: "observables-app": {
