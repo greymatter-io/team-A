@@ -117,12 +117,12 @@ clusters: "observables-app-to-aws-es": {
 		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com",
 		port: 443
 	}]
-	// secret: {
-  //   ecdh_curves: ["X25519:P-256:P-521:P-384"]
-  //   secret_name: "spiffe://greymatter.io/mesh-sample.observables-app",
-  //   secret_validation_name: "spiffe://greymatter.io",
-  //   subject_names: []
-	// }
+	secret: {
+    ecdh_curves: ["X25519:P-256:P-521:P-384"]
+    secret_name: "spiffe://greymatter.io/mesh-sample.observables-app",
+    secret_validation_name: "spiffe://greymatter.io",
+    subject_names: []
+	}
 }
 
 catalogservices: "observables-app": {
