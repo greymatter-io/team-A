@@ -109,6 +109,9 @@ clusters: "observables-app-to-aws-es": {
 		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com",
 		port: 443
 	}]
+	ssl_config: {
+		sni: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+	}
 }
 
 catalogservices: "observables-app": {
