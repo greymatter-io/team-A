@@ -22,7 +22,7 @@ spec:
       volumes:
       - name: ssh-private-key
         secret:
-          secretName: greymatter-sync-team-a-secret
+          secretName: greymatter-sync-secret
       containers:
       - name: greymatter-sync
         image: docker.greymatter.io/internal/cli:sync
