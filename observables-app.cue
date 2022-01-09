@@ -114,8 +114,8 @@ listeners: "observables-app-egress-to-aws-es": {
 
 domains: "observables-app-egress-to-aws-es": {
 	port: 9200
-	ssl_config: {}
-	force_https: true
+	// ssl_config: {}
+	// force_https: true
 	custom_headers:[
 		{
 			key: "x-forwarded-proto",
@@ -132,14 +132,9 @@ clusters: "observables-app-to-aws-es": {
 		port: 443
 	}]
 	ssl_config:{
-		protocols: [{"TLSv1.2"}]
+		protocols: ["TLSv1.2"]
 		require_client_certs: false
+		sni: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
 	}
 	require_tls: true
-	secret: {
-		ecdh_curves: ["X25519:P-256:P-521:P-384"]
-		secret_name: "spiffe://greymatter.io/mesh-sample.observables-app",
-		secret_validation_name: "spiffe://greymatter.io",
-		subject_names: []
-	}
 }
