@@ -48,12 +48,12 @@ proxies: "observables-app": {
 	domain_keys: [
 		"observables-app",
 		"observables-app-egress-tcp-to-gm-redis",
-		"observables-app-egress-to-aws-es"
+		"observables-app-egress-to-aws-es",
 	]
 	listener_keys: [
 		"observables-app",
 		"observables-app-egress-tcp-to-gm-redis",
-		"observables-app-egress-to-aws-es"
+		"observables-app-egress-to-aws-es",
 	]
 }
 
@@ -88,45 +88,3 @@ catalogservices: "observables-app": {
 	description:  "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
 	api_endpoint: "/services/observables-app/"
 }
-
-// aws-es configs
-// routes: "observables-app-egress-to-aws-es": {
-// 	domain_key: "observables-app-egress-to-aws-es"
-// 	rules: [{
-// 		constraints: {
-// 			light: [{
-// 				cluster_key: "observables-app-to-aws-es"
-// 				weight:      1
-// 			}]
-// 		}
-// 	}]
-// }
-
-// listeners: "observables-app-egress-to-aws-es": {
-// 	port: 9200
-// 	domain_keys: ["observables-app-egress-to-aws-es"]
-// }
-
-// domains: "observables-app-egress-to-aws-es": {
-// 	port: 9200
-// 	custom_headers:[
-// 		{
-// 			key: "x-forwarded-proto",
-// 			value: "https"
-// 		}
-// 	]
-// }
-
-// clusters: "observables-app-to-aws-es": {
-// 	name: "observables-app-to-aws-es"
-// 	instances: [{
-// 		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com",
-// 		port: 443
-// 	}]
-// 	ssl_config:{
-// 		protocols: ["TLSv1.2"]
-// 		require_client_certs: false
-// 		sni: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
-// 	}
-// 	require_tls: true
-// }
