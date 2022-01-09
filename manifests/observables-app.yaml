@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: service
-        image: docker.greymatter.io/internal/observables-app:logs
+        image: docker.greymatter.io/internal/observables-app:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -23,7 +23,7 @@ spec:
         - name: BASE_PATH
           value: /services/observables-app/
         - name: ES_URL
-          value: es
+          value: http://a12f7eb7bb4464e45a0d18700e0d177b-2141129942.us-east-1.elb.amazonaws.com:10808/gateways/aws-es
         - name: ES_INDEX
           value: vector
         - name: ES_EDGE_TOPIC
