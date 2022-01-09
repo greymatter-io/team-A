@@ -100,11 +100,6 @@ routes: "observables-app-egress-to-aws-es": {
 			}]
 		}
 	}]
-	route_match: {
-		path: "/es"
-		match_type: "prefix"
-	}
-	prefix_rewrite: "/"
 }
 
 listeners: "observables-app-egress-to-aws-es": {
