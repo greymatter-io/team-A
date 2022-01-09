@@ -133,7 +133,7 @@ routes: "edge-to-gm-redis": {
 	rules: [{
 		constraints: {
 			light: [{
-				cluster_key: "gm-redis"
+				cluster_key: "edge-to-gm-redis"
 				weight:      1
 			}]
 		}
