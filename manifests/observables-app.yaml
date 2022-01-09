@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: service
-        image: docker.greymatter.io/internal/observables-app:latest
+        image: docker.greymatter.io/internal/observables-app:logs
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -23,7 +23,7 @@ spec:
         - name: BASE_PATH
           value: /services/observables-app/
         - name: ES_URL
-          value: es # our Node.js backend hits localhost:9200, which proxies out to our external ES cluster.
+          value: es
         - name: ES_INDEX
           value: vector
         - name: ES_EDGE_TOPIC

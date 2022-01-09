@@ -1,6 +1,14 @@
 package mesh
 
-domains: edge: port: 10808
+domains: edge: {
+	port: 10808
+	custom_headers: [
+		{
+			key: "x-forwarded-proto",
+			value: "https"
+		}
+	]
+}
 
 listeners: edge: {
 	port: 10808
@@ -142,4 +150,44 @@ listeners: "edge-egress-tcp-to-gm-redis": {
 			stat_prefix: "gm-redis"
 		}
 	}
+}
+
+// Edge to AWS Elasticsearch (egress)
+
+routes: "edge-to-aws-es": {
+	domain_key: "edge"
+  route_match: {
+    path: "/gateways/aws-es/"
+    match_type: "prefix"
+  }
+  redirects: [
+    {
+      from: "^/gateways/aws-es$"
+      to: route_match.path
+      redirect_type: "permanent"
+    }
+  ]
+  prefix_rewrite: "/"
+	rules: [{
+		constraints: {
+			light: [{
+				cluster_key: "edge-to-aws-es"
+				weight:      1
+			}]
+		}
+	}]
+}
+
+clusters: "edge-to-aws-es": {
+	name: "edge-to-aws-es"
+	instances: [{
+		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com",
+		port: 443
+	}]
+	ssl_config:{
+		protocols: ["TLSv1.2"]
+		require_client_certs: false
+		sni: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+	}
+	require_tls: true
 }
