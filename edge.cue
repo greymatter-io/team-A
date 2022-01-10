@@ -15,8 +15,8 @@ listeners: edge: {
 	domain_keys: ["edge"]
 	active_http_filters: [
 		"gm.metrics",
-		// "gm.oidc-authentication",
-		// "gm.ensure-variables",
+		"gm.oidc-authentication",
+		"gm.ensure-variables",
 	]
 	http_filters: {
 		gm_metrics: {
@@ -58,14 +58,14 @@ listeners: edge: {
 			}
 			tokenRefresh: {
 				enabled:   true
-				endpoint:  "http://keycloak.greymatter.services:8080"
+				endpoint:  "https://keycloak.greymatter.services:8553"
 				realm:     "greymatter"
 				timeoutMs: 5000
 				useTLS:    false
 			}
 			serviceUrl:   "http://a4a59401000da452ab71e1915766f99c-1752620793.us-east-1.elb.amazonaws.com:10808"
 			callbackPath: "/oauth"
-			provider:     "http://keycloak.greymatter.services:8080/auth/realms/greymatter"
+			provider:     "https://keycloak.greymatter.services:8553/auth/realms/greymatter"
 			clientId:     "edge"
 			clientSecret: "3a4522e4-6ed0-4ba6-9135-13f0027c4b47"
 			additionalScopes: ["openid"]
