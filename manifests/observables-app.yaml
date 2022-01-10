@@ -23,7 +23,7 @@ spec:
         - name: BASE_PATH
           value: /services/observables-app/
         - name: ES_URL
-          value: http://next-gen-demo.greymatter.services:10808/gateways/aws-es
+          value: https://next-gen-demo.greymatter.services:10808/gateways/aws-es
         - name: ES_INDEX
           value: vector
         - name: ES_EDGE_TOPIC

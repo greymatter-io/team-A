@@ -65,7 +65,7 @@ listeners: edge: {
 				timeoutMs: 5000
 				useTLS:    false
 			}
-			serviceUrl:   "http://next-gen-demo.greymatter.services:10808"
+			serviceUrl:   "https://next-gen-demo.greymatter.services:10808"
 			callbackPath: "/oauth"
 			provider:     "https://keycloak.greymatter.services:8553/auth/realms/greymatter"
 			clientId:     "edge"
