@@ -87,4 +87,5 @@ catalogservices: "observables-app": {
 	name:         "Grey Matter Observables"
 	description:  "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
 	api_endpoint: "/services/observables-app/"
+	enable_historical_metrics: true
 }
