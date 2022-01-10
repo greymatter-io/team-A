@@ -51,3 +51,8 @@ catalogservices: [Name=_]: {
 	enable_instance_metrics: true
 	enable_historical_metrics: true
 }
+
+// Catalog Mesh
+catalogmeshes: [Name=_]: {
+	mesh_id: Name
+}
