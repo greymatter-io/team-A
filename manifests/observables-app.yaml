@@ -32,6 +32,8 @@ spec:
           value: gm
         - name: TITLE
           value: Grey Matter
+        - name: ENABLE_STATIC_ASSET_FILTER
+          value: 'false'
         - name: LOGO_BASE64
           valueFrom:
             configMapKeyRef:
