@@ -61,7 +61,7 @@ listeners: edge: {
 				endpoint:  "https://keycloak.greymatter.services:8553"
 				realm:     "greymatter"
 				timeoutMs: 5000
-				useTLS:    true
+				useTLS:    false
 			}
 			serviceUrl:   "http://a4a59401000da452ab71e1915766f99c-1752620793.us-east-1.elb.amazonaws.com:10808"
 			callbackPath: "/oauth"
