@@ -122,7 +122,7 @@ listeners: edge: {
 				},
 			]
 		},
-		"envoy.jwt_authn": {
+		"envoy_jwt_authn": {
 			providers: {
 				keycloak: {
 					issuer: "https://keycloak.greymatter.services:8553/auth/realms/greymatter",
@@ -143,7 +143,7 @@ listeners: edge: {
 				}
 			}
 		},
-		"envoy.lua": {
+		"envoy_lua": {
 			inline_code: """
 			  function envoy_on_request(request_handle)
 				  request_handle:logInfo('GOT HERE!!! -Daniel')
