@@ -15,6 +15,7 @@ listeners: edge: {
 	domain_keys: ["edge"]
 	active_http_filters: [
 		"gm.metrics",
+		"gm.observables",
 		"gm.oidc-authentication",
 		"gm.ensure-variables",
 	]
@@ -32,6 +33,9 @@ listeners: edge: {
 				redis_connection_string: "redis://127.0.0.1:10910"
 				push_interval_seconds:   10
 			}
+		}
+		gm_observables: {
+			topic: "edge"
 		}
 		"gm_oidc-authentication": {
 			accessToken: {
