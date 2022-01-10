@@ -95,7 +95,7 @@ listeners: edge: {
 			}
 			rules: [
 				{
-					match: { prefix: "/"}}
+					match: { prefix: "/"}
 					requires: {
 						requires_any: {
 							requirements: [
