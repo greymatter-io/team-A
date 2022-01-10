@@ -17,7 +17,7 @@ listeners: edge: {
 		"gm.metrics",
 		"gm.observables",
 		"gm.oidc-authentication",
-		"envoy.jwt_authn",
+		// "envoy.jwt_authn",
 		"envoy.lua"
 	]
 	http_filters: {
