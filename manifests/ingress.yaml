@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: edge2
   namespace: greymatter
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:988463703556:certificate/2e6dd6da-c1fd-4311-8c86-37858c422024
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+
 spec:
   type: LoadBalancer
   allocateLoadBalancerNodePorts: true
