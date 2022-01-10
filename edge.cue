@@ -146,6 +146,7 @@ listeners: edge: {
 		"envoy.lua": {
 			inline_code: """
 			  function envoy_on_request(request_handle)
+				  request_handle:logInfo('GOT HERE!!! -Daniel')
 			    local meta = request_handle:streamInfo():dynamicMetadata()
 			  	for key, value in pairs(meta) do
 			      request_handle:logInfo('extracted metadata key: ' .. key)
