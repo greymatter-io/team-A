@@ -17,7 +17,6 @@ listeners: edge: {
 		"gm.metrics",
 		"gm.observables",
 		"gm.oidc-authentication",
-		//"gm.ensure-variables",
 		"envoy.jwt_authn",
 		"envoy.lua"
 	]
@@ -74,54 +73,6 @@ listeners: edge: {
 			clientSecret: "3a4522e4-6ed0-4ba6-9135-13f0027c4b47"
 			additionalScopes: ["openid"]
 		}
-		"gm_ensure-variables": {
-			rules: [
-				{
-					location: "header"
-					key:      "Authorization"
-					value: {
-						matchType:   "regex"
-						matchString: "Bearer\\s+(\\S+).*"
-					}
-					copyTo: [
-						{
-							location: "header"
-							key:      "access_token"
-						},
-					]
-				},
-				{
-					location: "cookie"
-					key:      "access_token"
-					copyTo: [
-						{
-							location: "header"
-							key:      "access_token"
-						},
-					]
-				},
-				{
-					location: "cookie"
-					key:      "authz_token"
-					copyTo: [
-						{
-							location: "header"
-							key:      "authz_token"
-						},
-					]
-				},
-				{
-					location: "cookie"
-					key:      "refresh_token"
-					copyTo: [
-						{
-							location: "header"
-							key:      "refresh_token"
-						},
-					]
-				},
-			]
-		},
 		"envoy_jwt_authn": {
 			providers: {
 				keycloak: {
@@ -142,7 +93,19 @@ listeners: edge: {
 					payload_in_metadata: "jwt_payload"
 				}
 			}
-		},
+			rules: [
+				{
+					match: { prefix: "/"}}
+					requires: {
+						requires_any: {
+							requirements: [
+								{ provider_name: "keycloak" }
+							]
+						}
+					}
+				}
+			]
+		}
 		"envoy_lua": {
 			inline_code: """
 			  function envoy_on_request(request_handle)
