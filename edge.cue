@@ -84,9 +84,9 @@ listeners: edge: {
 						http_uri: {
 							uri: "https://keycloak.greymatter.services:8553/auth/realms/greymatter/protocol/openid-connect/certs"
 							cluster: "edge-to-keycloak",
-							timeout: "5s"
+							timeout: "1s"
 						}
-						cache_duration: "5m"
+						cache_duration: 300
 					}
 					forward: true
 					from_cookies: [ "access_token" ],
