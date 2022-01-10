@@ -14,7 +14,7 @@ listeners: "observables-app": {
 			metrics_host:                               "0.0.0.0"
 			metrics_port:                               8081
 			metrics_dashboard_uri_path:                 "/metrics"
-			metrics_prometheus_uri_path:                "prometheus"
+			metrics_prometheus_uri_path:                "/prometheus"
 			metrics_ring_buffer_size:                   4096
 			prometheus_system_metrics_interval_seconds: 15
 			metrics_key_function:                       "depth"
@@ -87,5 +87,4 @@ catalogservices: "observables-app": {
 	name:         "Grey Matter Observables"
 	description:  "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
 	api_endpoint: "/services/observables-app/"
-	enable_historical_metrics: true
 }
