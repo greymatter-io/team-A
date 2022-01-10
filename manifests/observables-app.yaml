@@ -23,7 +23,7 @@ spec:
         - name: BASE_PATH
           value: /services/observables-app/
         - name: ES_URL
-          value: http://a79491f3dd94643e3b6ae416a82805e7-393816492.us-east-1.elb.amazonaws.com:10808/gateways/aws-es
+          value: http://a4a59401000da452ab71e1915766f99c-1752620793.us-east-1.elb.amazonaws.com:10808/gateways/aws-es
         - name: ES_INDEX
           value: vector
         - name: ES_EDGE_TOPIC

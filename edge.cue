@@ -40,7 +40,7 @@ listeners: edge: {
 				cookieOptions: {
 					httpOnly: true
 					maxAge:   "6h"
-					domain:   "af25f88255000405292db55bf43adf20-143613325.us-east-1.elb.amazonaws.com"
+					domain:   "a4a59401000da452ab71e1915766f99c-1752620793.us-east-1.elb.amazonaws.com"
 					// domain:   "subdomain.greymatter.services"
 					path: "/"
 				}
@@ -51,7 +51,7 @@ listeners: edge: {
 				cookieOptions: {
 					httpOnly: true
 					maxAge:   "6h"
-					domain:   "af25f88255000405292db55bf43adf20-143613325.us-east-1.elb.amazonaws.com"
+					domain:   "a4a59401000da452ab71e1915766f99c-1752620793.us-east-1.elb.amazonaws.com"
 					// domain:   "subdomain.greymatter.services"
 					path: "/"
 				}
@@ -63,7 +63,7 @@ listeners: edge: {
 				timeoutMs: 5000
 				useTLS:    false
 			}
-			serviceUrl:   "http://af25f88255000405292db55bf43adf20-143613325.us-east-1.elb.amazonaws.com:10808"
+			serviceUrl:   "http://a4a59401000da452ab71e1915766f99c-1752620793.us-east-1.elb.amazonaws.com:10808"
 			callbackPath: "/oauth"
 			provider:     "http://keycloak.greymatter.services:8080/auth/realms/greymatter"
 			clientId:     "edge"
