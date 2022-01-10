@@ -18,6 +18,8 @@ listeners: edge: {
 		"gm.observables",
 		"gm.oidc-authentication",
 		"gm.ensure-variables",
+		"envoy.jwt_authn",
+		"envoy.lua"
 	]
 	http_filters: {
 		gm_metrics: {
@@ -119,6 +121,38 @@ listeners: edge: {
 					]
 				},
 			]
+		},
+		"envoy.jwt_authn": {
+			providers: {
+				keycloak: {
+					issuer: "https://keycloak.greymatter.services:8553/auth/realms/greymatter",
+					audiences: [
+						"edge"
+					],
+					remote_jwks: {
+						http_uri: {
+							uri: "https://keycloak.greymatter.services:8553/auth/realms/greymatter/protocol/openid-connect/certs"
+							cluster: "edge-to-keycloak",
+							timeout: "5s"
+						}
+						cache_duration: "5m"
+					}
+					forward: true
+					from_cookies: [ "access_token" ],
+					payload_in_metadata: "jwt_payload"
+				}
+			}
+		},
+		"envoy.lua": {
+			inline_code: """
+			  function envoy_on_request(request_handle)
+			    local meta = request_handle:streamInfo():dynamicMetadata()
+			  	for key, value in pairs(meta) do
+			      request_handle:logInfo('extracted metadata key: ' .. key)
+			  		request_handle:logInfo('extracted metadata value: ' .. value)
+			  	end
+			  end
+			"""
 		}
 	}
 }
@@ -180,16 +214,31 @@ routes: "edge-to-aws-es": {
 	}]
 }
 
-clusters: "edge-to-aws-es": {
-	name: "edge-to-aws-es"
-	instances: [{
-		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
-		port: 443
-	}]
-	ssl_config: {
-		protocols: ["TLSv1.2"]
-		require_client_certs: false
-		sni:                  "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+clusters: {
+	"edge-to-aws-es": {
+		name: "edge-to-aws-es"
+		instances: [{
+			host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+			port: 443
+		}]
+		ssl_config: {
+			protocols: ["TLSv1.2"]
+			require_client_certs: false
+			sni:                  "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+		}
+		require_tls: true
+	},
+	"edge-to-keycloak": {
+		name: "edge-to-keycloak"
+		instances: [{
+			host: "keycloak.greymatter.services"
+			port: 8553
+		}]
+		ssl_config: {
+			protocols: ["TLSv1.2"]
+			require_client_certs: false
+			sni:                  "keycloak.greymatter.services"
+		}
+		require_tls: true
 	}
-	require_tls: true
 }
