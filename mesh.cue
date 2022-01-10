@@ -1,6 +1,6 @@
 package mesh
 
-catalogmeshes: #mesh: {
+catalogmeshes: "mesh-sample": {
   mesh_type: "greymatter"
   name: "nextgen-demo.k8s.local"
   sessions: default: {
