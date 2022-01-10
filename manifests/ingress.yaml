@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: edge2
+  namespace: greymatter
+spec:
+  type: LoadBalancer
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: proxy
+    port: 10808
+    protocol: TCP
+    targetPort: 10808
+  selector:
+    greymatter.io/component: edge
