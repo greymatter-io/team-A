@@ -101,13 +101,7 @@ listeners: "spare-edge": {
 			rules: [
 				{
 					match: { prefix: "/"}
-					requires: {
-						requires_any: {
-							requirements: [
-								{ provider_name: "keycloak" }
-							]
-						}
-					}
+					requires: { provider_name: "keycloak" }
 				}
 			]
 		}
