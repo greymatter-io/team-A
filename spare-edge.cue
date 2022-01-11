@@ -14,8 +14,8 @@ listeners: "spare-edge": {
 	port: 10808
 	domain_keys: ["spare-edge"]
 	active_http_filters: [
-		// "gm.metrics",
-		// "gm.observables",
+		"gm.metrics",
+		"gm.observables",
 		"gm.ensure-variables",
 		"gm.oidc-authentication",
 		"envoy.jwt_authn",
