@@ -17,7 +17,7 @@ listeners: "spare-edge": {
 		// "gm.metrics",
 		// "gm.observables",
 		"gm.oidc-authentication",
-		// "envoy.jwt_authn",
+		"envoy.jwt_authn",
 		"envoy.lua"
 	]
 	http_filters: {
@@ -94,7 +94,7 @@ listeners: "spare-edge": {
 					// 	"""#
 					// }
 					forward: true
-					from_headers: [ "access_token" ],
+					from_headers: [{name: "access_token"}],
 					payload_in_metadata: "jwt_payload"
 				}
 			}
