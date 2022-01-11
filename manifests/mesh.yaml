@@ -7,12 +7,18 @@ spec:
   zone: default-zone
   install_namespace: greymatter
   watch_namespaces:
+  - team-a
   - team-b
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: greymatter
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-a
 ---
 apiVersion: v1
 kind: Namespace

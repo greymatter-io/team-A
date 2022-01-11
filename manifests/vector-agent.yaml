@@ -150,7 +150,7 @@ data:
 
     [sources.file]
     type = "file"
-    include = ["/var/log/pods/greymatter*/sidecar/*.log", "/var/log/pods/greymatter_edge*/edge/*.log", "/var/log/pods/team-b*/sidecar/*.log"]
+    include = ["/var/log/pods/greymatter*/sidecar/*.log", "/var/log/pods/greymatter_edge*/edge/*.log", "/var/log/pods/team-a*/sidecar/*.log", "/var/log/pods/team-b*/sidecar/*.log"]
     ignore_older = 1200
     remove_after_secs = 3600
 
