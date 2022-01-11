@@ -108,7 +108,7 @@ listeners: edge: {
 					}
 					forward: true
 					from_headers: [{name: "access_token"}],
-					payload_in_metadata: "jwt_payload"
+					payload_in_metadata: "claims"
 				}
 			}
 			rules: [
@@ -125,7 +125,7 @@ listeners: edge: {
 			    local meta = request_handle:streamInfo():dynamicMetadata()
 			  	for key, value in pairs(meta) do
 			      request_handle:logInfo('extracted metadata key: ' .. key)
-			  		request_handle:logInfo('extracted metadata value: ' .. value)
+			  		request_handle:logInfo('extracted metadata value: ' .. value.claims.email)
 			  	end
 			  end
 			"""
