@@ -154,13 +154,9 @@ listeners: edge: {
                            }
                         ],
                         "value":{
-                           "list_match":{
-                              "one_of":{
-                                 "string_match":{
-                                    "exact":"daniel.cox@gmail.com"
-                                 }
-                              }
-                           }
+													"string_match":{
+														"exact":"daniel.cox@gmail.com"
+													}
                         }
                      }
                   }
