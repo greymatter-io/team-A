@@ -48,12 +48,10 @@ proxies: "observables-app": {
 	domain_keys: [
 		"observables-app",
 		"observables-app-egress-tcp-to-gm-redis",
-		"observables-app-egress-to-aws-es",
 	]
 	listener_keys: [
 		"observables-app",
 		"observables-app-egress-tcp-to-gm-redis",
-		"observables-app-egress-to-aws-es",
 	]
 }
 
