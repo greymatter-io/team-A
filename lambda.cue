@@ -6,6 +6,7 @@ routes: "lambda:443": {
 		"path":       "/"
 		"match_type": "prefix"
 	}
+  "prefix_rewrite": "/cap-one-lambda-demo",
 	"rules": [
 		{
 			"constraints": {
@@ -23,7 +24,7 @@ routes: "lambda:443": {
 clusters: "lambda-to-lambda:443": {
 	name: "lambda-to-lambda:443"
 	instances: [{
-		host: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com/cap-one-lambda-demo"
+		host: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 		port: 443
 	}]
 	ssl_config: {
