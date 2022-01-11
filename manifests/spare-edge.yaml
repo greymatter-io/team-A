@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spare-edge
+  namespace: team-a
+spec:
+  selector:
+    matchLabels:
+      app: spare-edge
+  template:
+    metadata:
+      labels:
+        app: spare-edge
+    spec:
+      containers:
+      - name: gm-proxy
+        image: gm-proxy
+        ports:
+          - name: proxy
+            containerPort: 10808
+            protocol: TCP 
+        resources: {}
