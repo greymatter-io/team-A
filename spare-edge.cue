@@ -16,6 +16,7 @@ listeners: "spare-edge": {
 	active_http_filters: [
 		// "gm.metrics",
 		// "gm.observables",
+		"gm.ensure-variables",
 		"gm.oidc-authentication",
 		"envoy.jwt_authn",
 		"envoy.lua"
@@ -73,6 +74,18 @@ listeners: "spare-edge": {
 			clientSecret: "3a4522e4-6ed0-4ba6-9135-13f0027c4b47"
 			additionalScopes: ["openid"]
 		}
+		"gm_ensure-variables": {
+			rules: [
+				{
+					location: "cookie"
+					key:      "access_token"
+					copyTo: [
+						{
+							location: "header"
+							key:      "access_token"
+						},
+					]
+				}]
 		"envoy_jwt_authn": {
 			providers: {
 				keycloak: {
