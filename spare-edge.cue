@@ -83,9 +83,10 @@ listeners: "spare-edge": {
 						{
 							location: "header"
 							key:      "access_token"
-						},
+						}
 					]
 				}]
+		}
 		"envoy_jwt_authn": {
 			providers: {
 				keycloak: {
