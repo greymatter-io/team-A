@@ -8,7 +8,7 @@ metadata:
       [
         {
           "name": "lambda:443",
-          "host": "e6wzyjcwga.execute-api.us-east-1.amazonaws.com/cap-one-lambda-demo",
+          "host": "e6wzyjcwga.execute-api.us-east-1.amazonaws.com",
           "port": 443
         }
       ]
