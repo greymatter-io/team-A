@@ -122,15 +122,11 @@ listeners: edge: {
 		"envoy_lua": {
 			inline_code: """
 			  function envoy_on_request(request_handle)
-				  request_handle:logInfo('GOT HERE -Daniel')
 					local access_token = request_handle:headers():get('access_token')
 					request_handle:logInfo('access_token: ' .. access_token)
 
-			    local meta = request_handle:streamInfo():dynamicMetadata()
-			  	for key, value in pairs(meta) do
-			      request_handle:logInfo('extracted metadata key: ' .. key)
-			  		request_handle:logInfo('extracted metadata value: ' .. value.claims.email)
-			  	end
+			    local jwt = request_handle:streamInfo():dynamicMetadata():get('envoy.filters.http.jwt_authn')
+			  	request_handle:logInfo('extracted email: ' .. jwt.claims.email)
 			  end
 			"""
 		}
