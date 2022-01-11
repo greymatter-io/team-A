@@ -20,6 +20,7 @@ listeners: edge: {
 		"gm.ensure-variables",
 		"envoy.jwt_authn",
 		"envoy.lua",
+		"envoy.rbac"
 	]
 	http_filters: {
 		gm_metrics: {
@@ -129,6 +130,53 @@ listeners: edge: {
 			  	request_handle:logInfo('extracted email: ' .. jwt.claims.email)
 			  end
 			"""
+		},
+    "envoy_rbac":{
+      "rules":{
+         "action":0,
+         "policies":{
+            "0-admin":{
+               "permissions":[
+                  {
+                     "any":true
+                  }
+               ],
+               "principals":[
+                  {
+                     "metadata":{
+                        "filter":"envoy.filters.http.jwt_authn",
+                        "path":[
+                           {
+                              "key":"claims"
+                           },
+                           {
+                              "key":"email"
+                           }
+                        ],
+                        "value":{
+                           "list_match":{
+                              "one_of":{
+                                 "string_match":{
+                                    "exact":"daniel.cox@gmail.com"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               ]
+            },
+            "1-readonly":{
+               "permissions":[{
+                     "header":{
+                        "name":":method",
+                        "exact_match":"GET"
+                     }
+							  }],
+               "principals":[ { "any": true } ]
+            }
+				 }
+			}
 		}
 	}
 }
