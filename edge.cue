@@ -155,7 +155,7 @@ listeners: edge: {
                         ],
                         "value":{
 													"string_match":{
-														"exact":"daniel.cox@gmail.com"
+														"exact":"daniel.cox@greymatter.io"
 													}
                         }
                      }
