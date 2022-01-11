@@ -49,7 +49,7 @@ catalogservices: [Name=_]: {
 	mesh_id:    #mesh
 	service_id: Name
 	enable_instance_metrics: true
-	enable_historical_metrics: true
+	enable_historical_metrics: false
 }
 
 // Catalog Mesh
