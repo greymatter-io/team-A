@@ -6,7 +6,7 @@ catalogservices: "lambda": {
 	owner:        "AWS"
 	owner_url:    "https://aws.amazon.com/lambda/"
 	api_endpoint: "/services/lambda/"
-	capablity:    "Gateway"
+	capability:    "Gateway"
 }
 
 domains: "lambda": {
