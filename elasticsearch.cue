@@ -30,7 +30,6 @@ routes: "elasticsearch-to-elasticsearch:443": {
 }
 
 clusters: "elasticsearch-to-elasticsearch:443": {
-	name: "elasticsearch-to-elasticsearch:443"
 	instances: [{
 		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
 		port: 443
