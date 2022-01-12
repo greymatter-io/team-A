@@ -207,45 +207,46 @@ listeners: "edge-egress-tcp-to-gm-redis": {
 	}
 }
 
-// Edge to AWS Elasticsearch (egress)
-
-routes: "edge-to-aws-es": {
-	domain_key: "edge"
-	route_match: {
-		path:       "/gateways/aws-es/"
-		match_type: "prefix"
+routes: {
+	"edge-to-gm-redis": {
+		domain_key: "edge-egress-tcp-to-gm-redis"
+		rules: [{
+			constraints: {
+				light: [{
+					cluster_key: "edge-to-gm-redis"
+					weight:      1
+				}]
+			}
+		}]
 	}
-	redirects: [
-		{
-			from:          "^/gateways/aws-es$"
-			to:            route_match.path
-			redirect_type: "permanent"
+	"observables-app": {
+		domain_key: "edge",
+		route_match: {
+			match_type: "prefix",
+			path: "/services/observables-app/"
 		},
-	]
-	prefix_rewrite: "/"
-	rules: [{
-		constraints: {
-			light: [{
-				cluster_key: "edge-to-aws-es"
-				weight:      1
-			}]
-		}
-	}]
+		redirects: [
+			{
+				from: "^/services/observables-app$",
+				redirect_type: "permanent",
+				to: "/services/observables-app/"
+			}
+		],
+		prefix_rewrite: "/",
+		rules: [
+			{
+				constraints: {
+					light: [{
+						cluster_key: "observables-app",
+						weight: 1
+					}]
+				}
+			}
+		]
+	}
 }
 
 clusters: {
-	"edge-to-aws-es": {
-		instances: [{
-			host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
-			port: 443
-		}]
-		ssl_config: {
-			protocols: ["TLSv1.2"]
-			require_client_certs: false
-			sni:                  "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
-		}
-		require_tls: true
-	}
 	"edge-to-keycloak": {
 		instances: [{
 			host: "keycloak.greymatter.services"
