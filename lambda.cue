@@ -6,7 +6,7 @@ routes: "lambda:443": {
 		"path":       "/"
 		"match_type": "prefix"
 	}
-  "prefix_rewrite": "/cap-one-lambda-demo",
+	"prefix_rewrite": "/cap-one-lambda-demo"
 	"rules": [
 		{
 			"constraints": {

@@ -20,7 +20,7 @@ listeners: edge: {
 		"gm.ensure-variables",
 		"envoy.jwt_authn",
 		"envoy.lua",
-		"envoy.rbac"
+		"envoy.rbac",
 	]
 	http_filters: {
 		gm_metrics: {
@@ -48,7 +48,7 @@ listeners: edge: {
 					httpOnly: true
 					maxAge:   "6h"
 					domain:   "next-gen-demo.greymatter.services"
-					path: "/"
+					path:     "/"
 				}
 			}
 			idToken: {
@@ -58,7 +58,7 @@ listeners: edge: {
 					httpOnly: true
 					maxAge:   "6h"
 					domain:   "next-gen-demo.greymatter.services"
-					path: "/"
+					path:     "/"
 				}
 			}
 			tokenRefresh: {
@@ -84,24 +84,24 @@ listeners: edge: {
 						{
 							location: "header"
 							key:      "access_token"
-						}
+						},
 					]
 				}]
 		}
 		"envoy_jwt_authn": {
 			providers: {
 				keycloak: {
-					issuer: "https://keycloak.greymatter.services:8553/auth/realms/greymatter",
+					issuer: "https://keycloak.greymatter.services:8553/auth/realms/greymatter"
 					audiences: [
-						"edge"
-					],
+						"edge",
+					]
 					// remote_jwks: {
-					// 	http_uri: {
-					// 		uri: "https://keycloak.greymatter.services:8553/auth/realms/greymatter/protocol/openid-connect/certs"
-					// 		cluster: "edge-to-keycloak",
-					// 		timeout: "1s"
-					// 	}
-					// 	cache_duration: "300s"
+					//  http_uri: {
+					//   uri: "https://keycloak.greymatter.services:8553/auth/realms/greymatter/protocol/openid-connect/certs"
+					//   cluster: "edge-to-keycloak",
+					//   timeout: "1s"
+					//  }
+					//  cache_duration: "300s"
 					// }
 					local_jwks: {
 						inline_string: #"""
@@ -109,69 +109,69 @@ listeners: edge: {
 						"""#
 					}
 					forward: true
-					from_headers: [{name: "access_token"}],
+					from_headers: [{name: "access_token"}]
 					payload_in_metadata: "claims"
 				}
 			}
 			rules: [
 				{
-					match: { prefix: "/"}
-					requires: { provider_name: "keycloak" }
-				}
+					match: {prefix: "/"}
+					requires: {provider_name: "keycloak"}
+				},
 			]
 		}
 		"envoy_lua": {
 			inline_code: """
-			  function envoy_on_request(request_handle)
-					local access_token = request_handle:headers():get('access_token')
-					request_handle:logInfo('access_token: ' .. access_token)
+				  function envoy_on_request(request_handle)
+						local access_token = request_handle:headers():get('access_token')
+						request_handle:logInfo('access_token: ' .. access_token)
 
-			    local jwt = request_handle:streamInfo():dynamicMetadata():get('envoy.filters.http.jwt_authn')
-			  	request_handle:logInfo('extracted email: ' .. jwt.claims.email)
-			  end
-			"""
-		},
-    "envoy_rbac":{
-      "rules":{
-         "action":0,
-         "policies":{
-            "0-admin":{
-               "permissions":[
-                  {
-                     "any":true
-                  }
-               ],
-               "principals":[
-                  {
-                     "metadata":{
-                        "filter":"envoy.filters.http.jwt_authn",
-                        "path":[
-                           {
-                              "key":"claims"
-                           },
-                           {
-                              "key":"email"
-                           }
-                        ],
-                        "value":{
-													"string_match":{
-														"exact":"daniel.cox@greymatter.io"
-													}
-                        }
-                     }
-                  }
-               ]
-            },
-            "1-readonly":{
-               "permissions":[{
-                     "header":{
-                        "name":":method",
-                        "exact_match":"GET"
-                     }
-							  }],
-               "principals":[ { "any": true } ]
-            }
-				 }
+				    local jwt = request_handle:streamInfo():dynamicMetadata():get('envoy.filters.http.jwt_authn')
+				  	request_handle:logInfo('extracted email: ' .. jwt.claims.email)
+				  end
+				"""
+		}
+		"envoy_rbac": {
+			"rules": {
+				"action": 0
+				"policies": {
+					"0-admin": {
+						"permissions": [
+							{
+								"any": true
+							},
+						]
+						"principals": [
+							{
+								"metadata": {
+									"filter": "envoy.filters.http.jwt_authn"
+									"path": [
+										{
+											"key": "claims"
+										},
+										{
+											"key": "email"
+										},
+									]
+									"value": {
+										"string_match": {
+											"exact": "daniel.cox@greymatter.io"
+										}
+									}
+								}
+							},
+						]
+					}
+					"1-readonly": {
+						"permissions": [{
+							"header": {
+								"name":        ":method"
+								"exact_match": "GET"
+							}
+						}]
+						"principals": [ {"any": true}]
+					}
+				}
 			}
 		}
 	}
