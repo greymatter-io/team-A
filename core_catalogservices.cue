@@ -8,7 +8,7 @@ catalogservices: {
 		"owner":           "Grey Matter"
 		"owner_url":       "https://greymatter.io"
 		"api_endpoint":    "/"
-		"capability":      "mesh"
+		"capability":      "Mesh"
 		"business_impact": "critical"
 	}
 
@@ -20,7 +20,7 @@ catalogservices: {
 		"owner_url":         "https://greymatter.io"
 		"api_endpoint":      "/services/control/api/v1.0/"
 		"api_spec_endpoint": "/services/control/api/"
-		"capability":        "mesh"
+		"capability":        "Mesh"
 		"business_impact":   "critical"
 	}
 
@@ -32,7 +32,7 @@ catalogservices: {
 		"owner_url":         "https://greymatter.io"
 		"api_endpoint":      "/services/catalog/"
 		"api_spec_endpoint": "/services/catalog/"
-		"capability":        "mesh"
+		"capability":        "Mesh"
 		"business_impact":   "high"
 	}
 
@@ -42,7 +42,7 @@ catalogservices: {
 		"description":     "A user dashboard that paints a high-level picture of the mesh."
 		"owner":           "Grey Matter"
 		"owner_url":       "https://greymatter.io"
-		"capability":      "mesh"
+		"capability":      "Mesh"
 		"business_impact": "high"
 	}
 
@@ -54,7 +54,7 @@ catalogservices: {
 		"owner_url":         "https://greymatter.io"
 		"api_endpoint":      "/services/jwt-security/"
 		"api_spec_endpoint": "/services/jwt-security/"
-		"capability":        "mesh"
+		"capability":        "Mesh"
 		"business_impact":   "high"
 	}
 }
