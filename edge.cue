@@ -19,8 +19,7 @@ listeners: edge: {
 		"gm.oidc-authentication",
 		"gm.ensure-variables",
 		"envoy.jwt_authn",
-		"envoy.lua",
-		"envoy.rbac",
+		"envoy.lua"
 	]
 	http_filters: {
 		gm_metrics: {
