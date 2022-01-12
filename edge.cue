@@ -242,14 +242,14 @@ routes: {
 					}]
 				}
 			}
-		]
-	},
-	retry_policy: {
-		retryOn: "5xx",
-		numRetries: 3,
-		perTryTimeoutMsec: 1000,
-		timeoutMsec: 1000
-  }
+		],
+		retry_policy: {
+			retryOn: "5xx",
+			numRetries: 3,
+			perTryTimeoutMsec: 1000,
+			timeoutMsec: 1000
+		}
+	}
 }
 
 clusters: {
