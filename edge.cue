@@ -19,7 +19,8 @@ listeners: edge: {
 		"gm.oidc-authentication",
 		"gm.ensure-variables",
 		"envoy.jwt_authn",
-		"envoy.lua"
+		"envoy.lua",
+		"envoy.rbac"
 	]
 	http_filters: {
 		gm_metrics: {
@@ -135,40 +136,30 @@ listeners: edge: {
 				"action": 0
 				"policies": {
 					"0-admin": {
-						"permissions": [
-							{
-								"any": true
-							},
-						]
 						"principals": [
 							{
 								"metadata": {
 									"filter": "envoy.filters.http.jwt_authn"
 									"path": [
-										{
-											"key": "claims"
-										},
-										{
-											"key": "email"
-										},
+										{ "key": "claims" },
+										{ "key": "email" },
 									]
 									"value": {
-										"string_match": {
-											"exact": "daniel.cox@greymatter.io"
-										}
+										"string_match": { "exact": "daniel.cox@greymatter.io" }
 									}
 								}
 							},
 						]
-					}
-					"1-readonly": {
 						"permissions": [{
 							"header": {
 								"name":        ":method"
 								"exact_match": "GET"
 							}
 						}]
-						"principals": [ {"any": true}]
+					}
+					"1-readonly": {
+						"principals": [ { "any": true } ]
+						"permissions": [ { "any": true } ]
 					}
 				}
 			}
