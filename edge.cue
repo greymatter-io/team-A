@@ -135,8 +135,34 @@ listeners: edge: {
 			"rules": {
 				"action": 0
 				"policies": {
-					"0-admin": {
-						"principals": [
+					// Outsiders can and only access certain paths
+					"0-outsiders": {
+						"principals": [ 
+							{
+								"not_id": { // inverting the @greymatter.io suffix match from the JWT
+									"metadata": {
+										"filter": "envoy.filters.http.jwt_authn"
+										"path": [
+											{ "key": "claims" },
+											{ "key": "email" },
+										]
+										"value": {
+											"string_match": { "suffix": "@greymatter.io" }
+										}
+									}
+								}
+							}
+						]
+						"permissions": [{
+							"url_path": {
+								"path": {
+									"prefix": "/services/observables-app"
+								}
+							}
+						}]
+					}
+					"1-employees": {
+						"principals": [ 
 							{
 								"metadata": {
 									"filter": "envoy.filters.http.jwt_authn"
@@ -145,20 +171,11 @@ listeners: edge: {
 										{ "key": "email" },
 									]
 									"value": {
-										"string_match": { "exact": "daniel.cox@greymatter.io" }
+										"string_match": { "suffix": "@greymatter.io" }
 									}
 								}
-							},
-						]
-						"permissions": [{
-							"header": {
-								"name":        ":method"
-								"exact_match": "GET"
 							}
-						}]
-					}
-					"1-readonly": {
-						"principals": [ { "any": true } ]
+						]
 						"permissions": [ { "any": true } ]
 					}
 				}
