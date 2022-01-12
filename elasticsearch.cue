@@ -1,10 +1,10 @@
 package mesh
 
 catalogservices: "elasticsearch": {
-	name:         "Elasticsearch (AWS OpenSearch Service)"
+	name:         "AWS OpenSearch Service (Elasticsearch)"
 	description:  "Search Grey Matter data plane audit log data."
-	owner:        "AWS"
-	owner_url:    "https://aws.amazon.com/opensearch-service/"
+	owner:        "Team A"
+	owner_url:    "https://github.com/greymatter-io/team-a"
 	api_endpoint: "/gateways/elasticsearch/"
 	capability:   "Gateway"
 }
