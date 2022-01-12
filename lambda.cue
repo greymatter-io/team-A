@@ -6,6 +6,16 @@ catalogservices: "lambda": {
 	api_endpoint: "/services/lambda/"
 }
 
+domains: "lambda": {
+	"port": 10808
+	"custom_headers": [
+		{
+			"key":   "Host"
+			"value": "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
+		},
+	]
+}
+
 routes: "lambda:443": {
 	"domain_key": "lambda"
 	"route_match": {
