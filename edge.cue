@@ -247,18 +247,6 @@ routes: {
 }
 
 clusters: {
-	"edge-to-aws-es": {
-		instances: [{
-			host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
-			port: 443
-		}]
-		ssl_config: {
-			protocols: ["TLSv1.2"]
-			require_client_certs: false
-			sni:                  "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
-		}
-		require_tls: true
-	}
 	"edge-to-keycloak": {
 		instances: [{
 			host: "keycloak.greymatter.services"
