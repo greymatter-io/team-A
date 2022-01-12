@@ -183,18 +183,6 @@ proxies: edge: {
 
 domains: "edge-egress-tcp-to-gm-redis": port: 10910
 
-routes: "edge-to-gm-redis": {
-	domain_key: "edge-egress-tcp-to-gm-redis"
-	rules: [{
-		constraints: {
-			light: [{
-				cluster_key: "edge-to-gm-redis"
-				weight:      1
-			}]
-		}
-	}]
-}
-
 listeners: "edge-egress-tcp-to-gm-redis": {
 	port: 10910
 	domain_keys: ["edge-egress-tcp-to-gm-redis"]
@@ -244,10 +232,10 @@ routes: {
 			}
 		],
 		retry_policy: {
-			retryOn: "5xx",
-			numRetries: 3,
-			perTryTimeoutMsec: 1000,
-			timeoutMsec: 1000
+			retry_on: "5xx",
+			num_retries: 3,
+			per_try_timeout_msec: 1000,
+			timeout_msec: 1000
 		}
 	}
 }
