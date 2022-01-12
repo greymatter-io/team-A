@@ -36,7 +36,7 @@ spec:
         - "--git"
         - "--forever"
         - "--interval"
-        - "60s"
+        - "30s"
         - "--git-dir"
         - "/var/lib/greymatter/checkout"
         volumeMounts:
