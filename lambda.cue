@@ -3,33 +3,36 @@ package mesh
 catalogservices: "lambda": {
 	name:         "Random Useless Facts"
 	description:  "Gets a useless fact via AWS Lambda from https://uselessfacts.jsph.pl."
+	owner:        "AWS"
+	owner_url:    "https://aws.amazon.com/lambda/"
 	api_endpoint: "/services/lambda/"
+	capablity:    "Gateway"
 }
 
 domains: "lambda": {
-	"port": 10808
-	"custom_headers": [
+	port: 10808
+	custom_headers: [
 		{
-			"key":   "Host"
-			"value": "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
+			key:   "Host"
+			value: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 		},
 	]
 }
 
 routes: "lambda:443": {
-	"domain_key": "lambda"
-	"route_match": {
-		"path":       "/"
-		"match_type": "prefix"
+	domain_key: "lambda"
+	route_match: {
+		path:       "/"
+		match_type: "prefix"
 	}
-	"prefix_rewrite": "/cap-one-lambda-demo"
-	"rules": [
+	prefix_rewrite: "/cap-one-lambda-demo"
+	rules: [
 		{
-			"constraints": {
-				"light": [
+			constraints: {
+				light: [
 					{
-						"cluster_key": "lambda-to-lambda:443"
-						"weight":      1
+						cluster_key: "lambda-to-lambda:443"
+						weight:      1
 					},
 				]
 			}

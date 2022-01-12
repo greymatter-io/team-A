@@ -82,8 +82,12 @@ listeners: "observables-app-egress-tcp-to-gm-redis": {
 }
 
 catalogservices: "observables-app": {
-	name:            "Grey Matter Observables"
-	description:     "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
-	api_endpoint:    "/services/observables-app/"
-	business_impact: "high"
+	name:                    "Grey Matter Observables"
+	description:             "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
+	owner:                   "Grey Matter"
+	owner_url:               "https://greymatter.io"
+	api_endpoint:            "/services/observables-app/"
+	capability:              "mesh"
+	enable_instance_metrics: true
+	business_impact:         "high"
 }
