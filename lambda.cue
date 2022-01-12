@@ -1,5 +1,11 @@
 package mesh
 
+catalogservices: "lambda": {
+	name:            "Random Useless Facts"
+	description:     "Gets a useless fact via AWS Lambda from https://uselessfacts.jsph.pl."
+	api_endpoint:    "/services/lambda/"
+}
+
 routes: "lambda:443": {
 	"domain_key": "lambda"
 	"route_match": {
@@ -34,3 +40,4 @@ clusters: "lambda-to-lambda:443": {
 	}
 	require_tls: true
 }
+
