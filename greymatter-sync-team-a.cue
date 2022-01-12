@@ -1,10 +1,10 @@
 package mesh
 
 catalogservices: "greymatter-sync-team-a": {
-	name:            "Team A: Grey Matter Sync"
+	name:            "Grey Matter Sync (A)"
 	description:     "Dedicated sync container for managing Team A's control plane configurations via GitOps."
-	owner:           "Grey Matter"
-	owner_url:       "https://greymatter.io"
+	owner:           "Team A"
+	owner_url:       "https://github.com/greymatter-io/team-a"
 	capability:      "GitOps"
 	business_impact: "high"
 }
