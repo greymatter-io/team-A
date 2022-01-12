@@ -458,17 +458,17 @@ package greymatter
 }
 
 #RetryPolicy: {
-	numRetries?:                    int64
-	perTryTimeoutMsec?:             int64
-	timeoutMsec?:                   int64
-	retryOn?:                       string
-	retryPriority?:                 string
-	retryHostPredicate?:            string
-	hostSelectionRetryMaxAttempts?: int64
-	retriableStatusCodes?:          int64
-	retryBackOff?:                  #BackOff
-	retriableHeaders?:              #HeaderMatcher
-	retriableRequestHeaders?:       #HeaderMatcher
+	num_retries?:                    int64
+	per_try_timeout_msec?:             int64
+	timeout_msec?:                   int64
+	retry_on?:                       string
+	retry_priority?:                 string
+	retry_host_predicate?:            string
+	host_selection_retry_max_attempts?: int64
+	retriable_status_codes?:          int64
+	retry_back_off?:                  #BackOff
+	retriable_headers?:              #HeaderMatcher
+	retriable_request_headers?:       #HeaderMatcher
 }
 
 #RetriableHeaders: {
