@@ -45,14 +45,25 @@ routes: [Name=_]: greymatter.#Route & {
 }
 
 // Catalog Service
-catalogservices: [Name=_]: {
+catalogservices: [Name=_]: #CatalogService & {
 	mesh_id:                   #mesh
 	service_id:                Name
 	enable_instance_metrics:   true
 	enable_historical_metrics: false
 }
 
-// Catalog Mesh
-catalogmeshes: [Name=_]: {
-	mesh_id: Name
+#CatalogService: {
+	mesh_id:                   string
+	service_id:                string
+	name:                      *service_id | string
+	version?:                  string
+	description?:              string
+	api_endpoint?:             string
+	api_spec_endpoint?:        string
+	business_impact?:          string
+	capability?:               string
+	owner?:                    string
+	owner_url?:                string
+	enable_instance_metrics:   true
+	enable_historical_metrics: false
 }
