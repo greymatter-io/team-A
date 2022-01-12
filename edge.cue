@@ -154,10 +154,11 @@ listeners: edge: {
 							}
 						]
 						"permissions": [{
-							"url_path": {
-								"path": {
-									"prefix": "/services/observables-app"
-								}
+							"or_rules": {
+								"rules": [
+									{ "url_path": { "path": { "prefix": "/services/observables-app" } } },
+									{ "url_path": { "path": { "prefix": "/gateways" } } }
+								]
 							}
 						}]
 					}
