@@ -219,29 +219,6 @@ routes: {
 			}
 		}]
 	}
-	"edge-to-aws-es": {
-		domain_key: "edge"
-		route_match: {
-			path:       "/gateways/aws-es/"
-			match_type: "prefix"
-		}
-		redirects: [
-			{
-				from:          "^/gateways/aws-es$"
-				to:            route_match.path
-				redirect_type: "permanent"
-			},
-		]
-		prefix_rewrite: "/"
-		rules: [{
-			constraints: {
-				light: [{
-					cluster_key: "edge-to-aws-es"
-					weight:      1
-				}]
-			}
-		}]
-	}
 	"observables-app": {
 		domain_key: "edge",
 		route_match: {
