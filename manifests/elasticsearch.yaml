@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: team-a
+  annotations:
+    greymatter.io/egress-http-external: |-
+      [
+        {
+          "name": "elasticsearch:443",
+          "host": "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com",
+          "port": 443
+        }
+      ]
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: gm-proxy
+        image: gm-proxy
+        ports:
+          - name: proxy
+            containerPort: 10808
+            protocol: TCP 
+        resources: {}
