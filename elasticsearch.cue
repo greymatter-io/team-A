@@ -56,13 +56,13 @@ routes: {
 
 clusters: "elasticsearch-to-elasticsearch:443": {
 	instances: [{
-		host: "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+		host: "vpc-cap-one-demo-7tni5s65y4ej7qldbp4wvcmegi.us-east-1.es.amazonaws.com"
 		port: 443
 	}]
 	ssl_config: {
 		protocols: ["TLSv1.2"]
 		require_client_certs: false
-		sni:                  "vpc-cap1-xxufxxdmeghw4oigj44dkk2j64.us-east-1.es.amazonaws.com"
+		sni:                  "vpc-cap-one-demo-7tni5s65y4ej7qldbp4wvcmegi.us-east-1.es.amazonaws.com"
 	}
 	require_tls: true
 }
