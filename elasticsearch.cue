@@ -1,8 +1,8 @@
 package mesh
 
 catalogservices: "elasticsearch": {
-	name:         "Vector Index (Elasticsearch)"
-	description:  "Search log data shipped from Vector (stored in AWS OpenSearch Service)."
+	name:         "Elasticsearch (AWS OpenSearch Service)"
+	description:  "Search Grey Matter data plane audit log data."
 	owner:        "AWS"
 	owner_url:    "https://aws.amazon.com/opensearch-service/"
 	api_endpoint: "/gateways/elasticsearch/"
