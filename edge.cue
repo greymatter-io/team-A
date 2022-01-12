@@ -232,10 +232,10 @@ routes: {
 			}
 		],
 		retry_policy: {
-			retry_on: "5xx",
-			num_retries: 3,
-			per_try_timeout_msec: 1000,
-			timeout_msec: 1000
+			retryOn: "5xx",
+			numRetries: 3,
+			perTryTimeoutMsec: 1000,
+			timeoutMsec: 1000
 		}
 	}
 }
