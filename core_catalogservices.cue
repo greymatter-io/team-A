@@ -9,7 +9,6 @@ catalogservices: {
 		"owner_url":               "https://greymatter.io"
 		"api_endpoint":            "/"
 		"capability":              "mesh"
-		"enable_instance_metrics": true
 		"business_impact":         "critical"
 	}
 
@@ -22,7 +21,6 @@ catalogservices: {
 		"api_endpoint":            "/services/control/api/v1.0/"
 		"api_spec_endpoint":       "/services/control/api/"
 		"capability":              "mesh"
-		"enable_instance_metrics": true
 		"business_impact":         "critical"
 	}
 
@@ -35,7 +33,6 @@ catalogservices: {
 		"api_endpoint":            "/services/catalog/"
 		"api_spec_endpoint":       "/services/catalog/"
 		"capability":              "mesh"
-		"enable_instance_metrics": true
 		"business_impact":         "high"
 	}
 
@@ -46,7 +43,6 @@ catalogservices: {
 		"owner":                   "Grey Matter"
 		"owner_url":               "https://greymatter.io"
 		"capability":              "mesh"
-		"enable_instance_metrics": true
 		"business_impact":         "high"
 	}
 
@@ -59,7 +55,6 @@ catalogservices: {
 		"api_endpoint":            "/services/jwt-security/"
 		"api_spec_endpoint":       "/services/jwt-security/"
 		"capability":              "mesh"
-		"enable_instance_metrics": true
 		"business_impact":         "high"
 	}
 }
