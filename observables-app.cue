@@ -87,6 +87,6 @@ catalogservices: "observables-app": {
 	owner:           "Grey Matter"
 	owner_url:       "https://greymatter.io"
 	api_endpoint:    "/services/observables-app/"
-	capability:      "mesh"
+	capability:      "Mesh"
 	business_impact: "high"
 }
