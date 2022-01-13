@@ -246,6 +246,7 @@ routes: {
 			num_retries: 3,
 			per_try_timeout_msec: 1000,
 			timeout_msec: 1000
+			timeout_msec: 3
 		}
 	}
 }
