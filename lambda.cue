@@ -1,14 +1,5 @@
 package mesh
 
-catalogservices: "lambda": {
-	name:         "AWS Lambda"
-	description:  "Gets a useless fact via AWS Lambda from https://uselessfacts.jsph.pl."
-	owner:        "Team A"
-	owner_url:    "https://github.com/greymatter-io/team-a"
-	api_endpoint: "/gateways/lambda/"
-	capability:   "Gateway"
-}
-
 domains: "lambda": {
 	port: 10808
 	custom_headers: [

@@ -1,14 +1,5 @@
 package mesh
 
-catalogservices: "elasticsearch": {
-	name:         "AWS OpenSearch Service (Elasticsearch)"
-	description:  "Search Grey Matter data plane audit log data."
-	owner:        "Team A"
-	owner_url:    "https://github.com/greymatter-io/team-a"
-	api_endpoint: "/gateways/elasticsearch/"
-	capability:   "Gateway"
-}
-
 routes: {
 	"elasticsearch": {
 		domain_key: "edge"

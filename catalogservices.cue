@@ -1,4 +1,4 @@
-// package mesh
+package mesh
 
 catalogservices: {
 	edge: {
@@ -56,5 +56,42 @@ catalogservices: {
 		"api_spec_endpoint": "/services/jwt-security/"
 		"capability":        "Mesh"
 		"business_impact":   "high"
+	}
+
+	"observables-app": {
+		name:            "Grey Matter Observables"
+		description:     "A standalone application that demonstrates the power of Grey Matter Observables data, allowing users to understand user activity throughout the mesh."
+		owner:           "Grey Matter"
+		owner_url:       "https://greymatter.io"
+		api_endpoint:    "/services/observables-app/"
+		capability:      "Mesh"
+		business_impact: "high"
+	}
+
+	"greymatter-sync-team-a": {
+		name:            "Grey Matter Sync (A)"
+		description:     "Dedicated sync container for managing Team A's control plane configurations via GitOps."
+		owner:           "Team A"
+		owner_url:       "https://github.com/greymatter-io/team-a"
+		capability:      "GitOps"
+		business_impact: "high"
+	}
+
+	"elasticsearch": {
+		name:         "AWS OpenSearch Service (Elasticsearch)"
+		description:  "Search Grey Matter data plane audit log data."
+		owner:        "Team A"
+		owner_url:    "https://github.com/greymatter-io/team-a"
+		api_endpoint: "/gateways/elasticsearch/"
+		capability:   "Gateway"
+	}
+
+	"lambda": {
+		name:         "AWS Lambda"
+		description:  "Gets a useless fact via AWS Lambda from https://uselessfacts.jsph.pl."
+		owner:        "Team A"
+		owner_url:    "https://github.com/greymatter-io/team-a"
+		api_endpoint: "/gateways/lambda/"
+		capability:   "Gateway"
 	}
 }

@@ -20,7 +20,7 @@ listeners: edge: {
 		"gm.ensure-variables",
 		"envoy.jwt_authn",
 		"envoy.lua",
-		"envoy.rbac"
+		"envoy.rbac",
 	]
 	http_filters: {
 		gm_metrics: {
@@ -137,47 +137,47 @@ listeners: edge: {
 				"policies": {
 					// Outsiders can and only access certain paths
 					"0-outsiders": {
-						"principals": [ 
+						"principals": [
 							{
-								"not_id": { // inverting the @greymatter.io suffix match from the JWT
+								"not_id": {// inverting the @greymatter.io suffix match from the JWT
 									"metadata": {
 										"filter": "envoy.filters.http.jwt_authn"
 										"path": [
-											{ "key": "claims" },
-											{ "key": "email" },
+											{"key": "claims"},
+											{"key": "email"},
 										]
 										"value": {
-											"string_match": { "suffix": "@greymatter.io" }
+											"string_match": {"suffix": "@greymatter.io"}
 										}
 									}
 								}
-							}
+							},
 						]
 						"permissions": [{
 							"or_rules": {
 								"rules": [
-									{ "url_path": { "path": { "prefix": "/services/observables-app" } } },
-									{ "url_path": { "path": { "prefix": "/gateways" } } }
+									{"url_path": {"path": {"prefix": "/services/observables-app"}}},
+									{"url_path": {"path": {"prefix": "/gateways"}}},
 								]
 							}
 						}]
 					}
 					"1-employees": {
-						"principals": [ 
+						"principals": [
 							{
 								"metadata": {
 									"filter": "envoy.filters.http.jwt_authn"
 									"path": [
-										{ "key": "claims" },
-										{ "key": "email" },
+										{"key": "claims"},
+										{"key": "email"},
 									]
 									"value": {
-										"string_match": { "suffix": "@greymatter.io" }
+										"string_match": {"suffix": "@greymatter.io"}
 									}
 								}
-							}
+							},
 						]
-						"permissions": [ { "any": true } ]
+						"permissions": [ {"any": true}]
 					}
 				}
 			}
@@ -217,28 +217,28 @@ routes: {
 		}]
 	}
 	"observables-app": {
-		domain_key: "edge",
+		domain_key: "edge"
 		route_match: {
-			match_type: "prefix",
-			path: "/services/observables-app/"
-		},
+			match_type: "prefix"
+			path:       "/services/observables-app/"
+		}
 		redirects: [
 			{
-				from: "^/services/observables-app$",
-				redirect_type: "permanent",
-				to: "/services/observables-app/"
-			}
-		],
-		prefix_rewrite: "/",
+				from:          "^/services/observables-app$"
+				redirect_type: "permanent"
+				to:            "/services/observables-app/"
+			},
+		]
+		prefix_rewrite: "/"
 		rules: [
 			{
 				constraints: {
 					light: [{
-						cluster_key: "observables-app",
-						weight: 1
+						cluster_key: "observables-app"
+						weight:      1
 					}]
 				}
-			}
+			},
 		]
 	}
 }
