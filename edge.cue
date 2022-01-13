@@ -39,7 +39,6 @@ listeners: edge: {
 		}
 		gm_observables: {
 			topic: "edge"
-			topic: "notedge"
 		}
 		"gm_oidc-authentication": {
 			accessToken: {
