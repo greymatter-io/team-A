@@ -156,8 +156,9 @@ listeners: edge: {
 						"permissions": [{
 							"or_rules": {
 								"rules": [
-									{"url_path": {"path": {"prefix": "/services/observables-app"}}},
-									{"url_path": {"path": {"prefix": "/gateways"}}},
+									{"url_path": {"path": {"prefix": "/gateways/lambda"}}},
+									// {"url_path": {"path": {"prefix": "/services/observables-app"}}},
+									// {"url_path": {"path": {"prefix": "/gateways"}}},
 								]
 							}
 						}]
