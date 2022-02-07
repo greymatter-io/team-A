@@ -33,6 +33,8 @@ spec:
         - "/etc/greymatter/config.toml"
         - "sync"
         - "--cue"
+        - "--branch"
+        - "combine_with_team_b"
         - "--git"
         - "--forever"
         - "--interval"

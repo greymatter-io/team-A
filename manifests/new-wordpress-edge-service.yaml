@@ -1,0 +1,25 @@
+# Source: color/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-edge
+  labels:
+    app: wordpress-edge
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:988463703556:certificate/2427c5b8-b5fe-4705-ae89-7a6aa8910a6e
+spec:
+  type: LoadBalancer
+  allocateLoadBalancerNodePorts: true
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 10808
+      protocol: TCP
+      name: metrics
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  selector:
+    app: wordpress-edge
+---

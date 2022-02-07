@@ -1,0 +1,31 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-edge
+  namespace: team-b
+  annotations:
+    greymatter.io/egress-http-local: '["wordpress","wordpressnew"]'
+spec:
+  selector:
+    matchLabels:
+      app: wordpress-edge
+  template:
+    metadata:
+      labels:
+        app: wordpress-edge
+    spec:
+      containers:
+      - name: gm-proxy
+        image: gm-proxy
+        ports:
+          - name: proxy
+            containerPort: 10808
+            protocol: TCP
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "500m"
+          limits:
+            memory: "256Mi"
+            cpu: "750m"
