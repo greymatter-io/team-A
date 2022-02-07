@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress-edge
-  namespace: team-b
+  namespace: team-a
   annotations:
     greymatter.io/egress-http-local: '["wordpress","wordpressnew"]'
 spec:

@@ -1,4 +1,4 @@
-package wordpress
+package mesh
 
 listeners: "wordpress": {
 	port: 10808

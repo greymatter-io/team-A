@@ -1,4 +1,4 @@
-package wordpress
+package mesh
 
 routes: "wordpress-edge-to-wordpress": {
 	route_match: {

@@ -116,7 +116,6 @@ catalogservices: {
     description: "The edge node for the Wordpress site."
     owner: "Team A"
     owner_url: "https://github.com/greymatter.io/team-a"
-    documentation: "https://wordpress.next-gen-demo.greymatter.services:10808/"
     api_endpoint: "https://wordpress.next-gen-demo.greymatter.services:10808/"
     capability: "web"
   }
@@ -125,7 +124,7 @@ catalogservices: {
     name: "Wordpress Database"
     description: "The database for the Wordpress site."
     owner: "Team A"
-    owner_url: "https://github.com/greymatter-io/team-b"
+    owner_url: "https://github.com/greymatter-io/team-a"
     capability: "database"
   }
 }

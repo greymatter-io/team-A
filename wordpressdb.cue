@@ -1,2 +1,2 @@
-package wordpress
+package mesh
 
