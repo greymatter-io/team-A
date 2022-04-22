@@ -62,7 +62,7 @@ routes: {
 
 clusters: "lambda-to-lambda:443": {
 	instances: [{
-		host: "BADe6wzyjcwga.execute-api.us-east-1.amazonaws.com"
+		host: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 		port: 443
 	}]
 	ssl_config: {
