@@ -254,9 +254,7 @@ clusters: {
 		ssl_config: {
 			protocols: ["TLSv1.2"]
 			require_client_certs: false
-			sni: [
-				"keycloak.greymatter.services",
-			]
+			sni:                  "keycloak.greymatter.services"
 		}
 		require_tls: true
 	}
