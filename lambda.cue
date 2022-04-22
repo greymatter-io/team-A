@@ -14,14 +14,14 @@ routes: {
 	"lambda": {
 		domain_key: "edge"
 		route_match: {
-			path:       "/gateways/lambda/"
+			path:       "/gatewayss/lambda/"
 			match_type: "prefix"
 		}
 		prefix_rewrite: "/"
 		redirects: [
 			{
-				from:          "^/gateways/lambda$"
-				to:            "/gateways/lambda/"
+				from:          "^/gatewayss/lambda$"
+				to:            "/gatewayss/lambda/"
 				redirect_type: "permanent"
 			},
 		]
