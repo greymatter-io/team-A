@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lambda2
+  namespace: team-a
+  annotations:
+    greymatter.io/egress-http-external: |-
+      [
+        {
+          "name": "lambda:443",
+          "host": "e6wzyjcwga.execute-api.us-east-1.amazonaws.com",
+          "port": 443
+        }
+      ]
+spec:
+  selector:
+    matchLabels:
+      app: lambda2
+  template:
+    metadata:
+      labels:
+        app: lambda2
+    spec:
+      containers:
+      - name: gm-proxy
+        image: gm-proxy
+        ports:
+          - name: proxy
+            containerPort: 10808
+            protocol: TCP 
+        resources: {}

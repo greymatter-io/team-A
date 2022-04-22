@@ -157,6 +157,7 @@ listeners: edge: {
 							"or_rules": {
 								"rules": [
 									{"url_path": {"path": {"prefix": "/gateways/lambda"}}},
+									{"url_path": {"path": {"prefix": "/gateways/lambda2"}}},
 									// {"url_path": {"path": {"prefix": "/services/observables-app"}}},
 									// {"url_path": {"path": {"prefix": "/gateways"}}},
 								]

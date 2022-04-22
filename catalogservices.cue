@@ -94,4 +94,13 @@ catalogservices: {
 		api_endpoint: "/gateways/lambda/"
 		capability:   "Gateway"
 	}
+
+	"lambda2": {
+		name:         "AWS Lambda (2)"
+		description:  "Gets a useless fact via AWS Lambda from https://uselessfacts.jsph.pl."
+		owner:        "Team A"
+		owner_url:    "https://github.com/greymatter-io/team-a"
+		api_endpoint: "/gateways/lambda2/"
+		capability:   "Gateway"
+	}
 }
