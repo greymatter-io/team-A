@@ -71,20 +71,20 @@ clusters: "lambda2-to-lambda2:443": {
 		sni:                  "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 	}
 	require_tls: true
-	circuit_breakers: {
-		max_connections:      1
-		max_pending_requests: 1
-		max_retries:          1
-		max_requests:         1
-		max_connection_pools: 1
-		track_remaining:      true
-		high: {
-			max_connections:      1
-			max_pending_requests: 1
-			max_retries:          1
-			max_requests:         1
-			max_connection_pools: 1
-			track_remaining:      true
-		}
-	}
+	// circuit_breakers: {
+	//  max_connections:      1
+	//  max_pending_requests: 1
+	//  max_retries:          1
+	//  max_requests:         1
+	//  max_connection_pools: 1
+	//  track_remaining:      true
+	//  high: {
+	//   max_connections:      1
+	//   max_pending_requests: 1
+	//   max_retries:          1
+	//   max_requests:         1
+	//   max_connection_pools: 1
+	//   track_remaining:      true
+	//  }
+	// }
 }
