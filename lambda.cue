@@ -50,7 +50,7 @@ routes: {
 				constraints: {
 					light: [
 						{
-							cluster_key: "lambda-to-lambda:8443"
+							cluster_key: "lambda-to-lambda:443"
 							weight:      1
 						},
 					]
