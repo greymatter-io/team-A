@@ -14,14 +14,14 @@ routes: {
 	"lambda": {
 		domain_key: "edge"
 		route_match: {
-			path:       "/gatewayss/lambda/"
+			path:       "/gateways/lambda/"
 			match_type: "prefix"
 		}
 		prefix_rewrite: "/"
 		redirects: [
 			{
-				from:          "^/gatewayss/lambda$"
-				to:            "/gatewayss/lambda/"
+				from:          "^/gateways/lambda$"
+				to:            "/gateways/lambda/"
 				redirect_type: "permanent"
 			},
 		]
@@ -50,7 +50,7 @@ routes: {
 				constraints: {
 					light: [
 						{
-							cluster_key: "lambda-to-lambda:443"
+							cluster_key: "lambda-to-lambda:8443"
 							weight:      1
 						},
 					]
