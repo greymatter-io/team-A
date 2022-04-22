@@ -68,9 +68,7 @@ clusters: "lambda2-to-lambda2:443": {
 	ssl_config: {
 		protocols: ["TLSv1.2"]
 		require_client_certs: false
-		sni: [
-			"e6wzyjcwga.execute-api.us-east-1.amazonaws.com",
-		]
+		sni:                  "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 	}
 	require_tls: true
 	circuit_breakers: {
