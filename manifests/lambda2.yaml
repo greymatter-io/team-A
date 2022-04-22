@@ -7,7 +7,7 @@ metadata:
     greymatter.io/egress-http-external: |-
       [
         {
-          "name": "lambda:443",
+          "name": "lambda2:443",
           "host": "e6wzyjcwga.execute-api.us-east-1.amazonaws.com",
           "port": 443
         }
