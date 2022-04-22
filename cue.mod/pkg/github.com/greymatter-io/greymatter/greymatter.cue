@@ -1,281 +1,51 @@
-// Core proto files
-package greymatter
+package api
 
-// import "google/protobuf/duration.proto";
-#Duration: {
-	seconds?: int64
-	nanos?:   int32
-}
+// Cluster
 
-// `Any` contains an arbitrary serialized protocol buffer message along with a
-// URL that describes the type of the serialized message.
-// this is a google type
-#Any: {
-	typeUrl?: string
-	value?:   bytes
-}
-
-#Checksum: {
-	checksum?: string
-}
-
-// TODO(cm): this type is likely malformed/superfluous
-#Metadata: {
-	metadata?: [...#Metadatum]
-}
-
-#Metadatum: {
-	key?:   string
-	value?: string
-}
-
-#Listener: {
-	listener_key: string
-	zone_key:     string
+#Cluster: {
 	name:         string
-	// Docs say deprecated: https://docs.greymatter.io/reference/api/fabric-api/listener#protocol
-	protocol?:               string
-	active_network_filters?: [...string] | null
-	// TODO: are we handling these correctly?
-	// is _ the arbitrary type?
-	network_filters?: _
-	active_http_filters?: [...string]
-	http_filters?: _
-	ip:            string
-	port:          int64
-	domain_keys: [...string]
-	tracing_config:          #TracingConfig | *null
+	cluster_key:  string
+	zone_key:     string
+	require_tls?: bool
+	instances?: [...#Instance]
+	health_checks?: [...#HealthCheck]
+	outlier_detection?:     #OutlierDetection
+	circuit_breakers?:      #CircuitBreakersThresholds
+	ring_hash_lb_conf?:     #RingHashLbConfig
+	original_dst_lb_conf?:  #OriginalDstLbConfig
+	least_request_lb_conf?: #LeastRequestLbConfig
+	common_lb_conf?:        #CommonLbConfig
+
+	// common.cue
 	secret?:                 #Secret
-	org_key?:                string
-	access_loggers?:         #AccessLoggers
-	use_remote_address?:     bool
+	ssl_config?:             #SSLConfig
 	http_protocol_options?:  #HTTPProtocolOptions
 	http2_protocol_options?: #HTTP2ProtocolOptions
-	stream_idle_timeout?:    string
-	request_timeout?:        string
-	drain_timeout?:          string
-	delayed_close_timeout?:  string
-	checksum?:               #Checksum
 }
 
-#HTTP2ProtocolOptions: {
-	hpackTableSize?:                               uint32
-	maxConcurrentStreams?:                         uint32
-	initialStreamWindowSize?:                      uint32
-	initialConnectionWindowSize?:                  uint32
-	allowConnect?:                                 bool
-	maxOutboundFrames?:                            uint32
-	maxOutboundControlFrames?:                     uint32
-	maxConsecutiveInboundFramesWithEmptyPayload?:  uint32
-	maxInboundPriorityFramesPerStream?:            uint32
-	maxInboundWindowUpdateFramesPerDataFrameSent?: uint32
-	streamErrorOnInvalidHTTPMessaging?:            bool
-}
-
-#HTTPConnectionLoggers: {
-	disabled?: bool
-	fileLoggers?: [...#FileAccessLog]
-	hTTPGRPCAccessLoggers?: [...#HTTPGRPCAccessLog]
-}
-
-#HTTPProtocolOptions: {
-	allowAbsoluteURL?:     bool
-	acceptHTTP10?:         bool
-	defaultHostForHTTP10?: string
-	headerKeyFormat?:      #HeaderKeyFormat
-	enableTrailers?:       bool
-}
-
-#HTTPUpstreamLoggers: {
-	disabled?: bool
-	fileLoggers?: [...#FileAccessLog]
-	hTTPGRPCAccessLoggers?: [...#HTTPGRPCAccessLog]
-}
-
-#TracingConfig: {
-	ingress?: bool
-	requestHeadersForTags?: [...string]
-}
-
-#HeaderKeyFormat: {
-	properCaseWords?: bool
-}
-
-#Loggers: {
-	disabled?: bool
-	fileLoggers?: [...#FileAccessLog]
-	hTTPGRPCAccessLoggers?: [...#HTTPGRPCAccessLog]
-}
-
-#AccessLoggers: {
-	http_connection_loggers?: #Loggers
-	http_upstream_loggers?:   #Loggers
-}
-
-#FileAccessLog: {
-	path?:   string
-	format?: string
-	JSONFormat?: {
-		[string]: string
-	}
-	typedJSONFormat?: {
-		[string]: string
-	}
-}
-
-#HTTPGRPCAccessLog: {
-	commonConfig?: #GRPCCommonConfig
-	additionalRequestHeaders?: [...string]
-	additionalResponseHeaders?: [...string]
-	additionalResponseTrailers?: [...string]
-}
-
-#ErrorCase: {
-	attribute?: string
-	msg?:       string
-}
-
-#From: {
-	key?:   string
-	value?: string
-}
-
-#To: {
-	key?:   string
-	value?: string
-}
-
-#GRPCCommonConfig: {
-	logName?:     string
-	gRPCService?: #GRPCService
-}
-
-#GRPCService: {
-	clusterName?: string
-}
-
-#GoogleRE2: {
-	maxProgramSize?: int64
-}
-
-#GoogleRe2: {
-	maxProgramSize?: int64
-}
-
-#DataSource: {
-	filename?:      string
-	inline_string?: string
-}
-
-#CommonConfig: {
-	log_name?:    string
-	gRPCService?: #GRPCService
-}
-
-#ValidationError: {
-	errors?: [...#ErrorCase]
-}
-
-#ValidationErrorsByAttribute: {
-}
-
-#Percent: {
-	value?: float64
-}
-
-#ResponseData: {
-	// both fields are optional; so our default is empty object {}
-	headers?: [...#HeaderDatum]
-	cookies?: [...#CookieDatum]
-}
-
-#ResponseDatum: {
-	name?:           string
-	value?:          string
-	valueIsLiteral?: bool
-}
-
-#HeaderDatum: {
-	responseDatum?: #ResponseDatum
-}
-
-#CookieDatum: {
-	responseDatum?: #ResponseDatum
-	expiresInSec?:  uint32
-	domain?:        string
-	path?:          string
-	secure?:        bool
-	httpOnly?:      bool
-	sameSite?:      string
-}
-
-#Secret: {
-	secret_key?:  string
-	secret_name?: string
-	// renamed validation_name -> secret_validation_name
-	secret_validation_name?:          string
-	subject_names:                    [...string] | *null
-	ecdh_curves:                      [...string] | *null
-	forward_client_cert_details?:     string
-	set_current_client_cert_details?: #SetCurrentClientCertDetails
-	checksum:                         #Checksum | *""
-}
-
-#SSLConfig: {
-	cipher_filter?: string
-	protocols?: [...string]
-	cert_key_pairs?: [...#CertKeyPathPair]
-	require_client_certs?: bool
-	trust_file?:           string
-	sni?: string
-	crl?: #DataSource
-}
-
-#CertKeyPathPair: {
-	certificate_path?: string
-	key_path?:         string
-}
-
-#SetCurrentClientCertDetails: {
-	uri?: bool | *false
-}
-
-#CircuitBreakers: {
-	maxConnections?:     int64
-	maxPendingRequests?: int64
-	maxRequests?:        int64
-	maxRetries?:         int64
-	maxConnectionPools?: int64
-	trackRemaining?:     bool
-}
-
-#CircuitBreakersThresholds: {
-	maxConnections?:     int64
-	maxPendingRequests?: int64
-	maxRequests?:        int64
-	maxRetries?:         int64
-	maxConnectionPools?: int64
-	trackRemaining?:     bool
-	high?:               #CircuitBreakers
+#Instance: {
+	host: string
+	port: int32
+	metadata?: [...#Metadata]
 }
 
 #HealthCheck: {
-	timeoutMsec?:               int64
-	intervalMsec?:              int64
-	intervalJitterMsec?:        int64
-	unhealthyThreshold?:        int64
-	healthyThreshold?:          int64
-	reuseConnection?:           bool
-	noTrafficIntervalMsec?:     int64
-	unhealthyIntervalMsec?:     int64
-	unhealthyEdgeIntervalMsec?: int64
-	healthyEdgeIntervalMsec?:   int64
-	healthChecker?:             #HealthChecker
+	timeout_msec?:                 int64
+	interval_msec?:                int64
+	interval_jitter_msec?:         int64
+	unhealthy_threshold?:          int64
+	healthy_threshold?:            int64
+	reuse_connection?:             bool
+	no_traffic_interval_msec?:     int64
+	unhealthy_interval_msec?:      int64
+	unhealthy_edge_interval_msec?: int64
+	healthy_edge_interval_msec?:   int64
+	health_checker?:               #HealthChecker
 }
 
 #HealthChecker: {
-	HTTPHealthCheck?: #HTTPHealthCheck
-	TCPHealthCheck?:  #TCPHealthCheck
+	http_health_check?: #HTTPHealthCheck
+	tcp_health_check?:  #TCPHealthCheck
 }
 
 #TCPHealthCheck: {
@@ -284,164 +54,411 @@ package greymatter
 }
 
 #HTTPHealthCheck: {
-	host?:                   string
-	path?:                   string
-	serviceName?:            string
-	request_headers_to_add?: [...#Metadata] | null
+	host?:         string
+	path?:         string
+	service_name?: string
+	request_headers_to_add?: [...#Metadata]
 }
 
 #OutlierDetection: {
-	intervalMsec?:                       int64
-	baseEjectionTimeMsec?:               int64
-	maxEjectionPercent?:                 int64
-	consecutive5xx?:                     int64
-	enforcingConsecutive5xx?:            int64
-	enforcingSuccessRate?:               int64
-	successRateMinimumHosts?:            int64
-	successRateRequestVolume?:           int64
-	successRateStdevFactor?:             int64
-	consecutiveGatewayFailure?:          int64
-	enforcingConsecutiveGatewayFailure?: int64
+	interval_msec?:                         int64
+	base_ejection_time_msec?:               int64
+	max_ejection_percent?:                  int64
+	consecutive5xx?:                        int64
+	enforcing_consecutive5xx?:              int64
+	enforcing_success_rate?:                int64
+	success_rate_minimum_hosts?:            int64
+	success_rate_request_volume?:           int64
+	success_rate_stdev_factor?:             int64
+	consecutive_gateway_failure?:           int64
+	enforcing_consecutive_gateway_failure?: int64
 }
+
+#CircuitBreakersThresholds: #CircuitBreakers & {
+	high?: #CircuitBreakers
+}
+
+#CircuitBreakers: {
+	max_connections?:      int64
+	max_pending_requests?: int64
+	max_requests?:         int64
+	max_retries?:          int64
+	max_connection_pools?: int64
+	track_remaining?:      bool
+}
+
+#RingHashLbConfig: {
+	minimum_ring_size?: uint64
+	hash_func?:         uint32
+	maximum_ring_size?: uint64
+}
+
+#OriginalDstLbConfig: use_http_header?: bool
+
+#LeastRequestLbConfig: choice_count?: uint32
 
 #CommonLbConfig: {
-	healthyPanicThreshold?:           #Percent
-	zoneAwareLbConf?:                 #ZoneAwareLbConfig
-	localityWeightedLbConf?:          #LocalityWeightedLbConfig
-	updateMergeWindow?:               #Duration
-	ignoreNewHostsUntilFirstHc?:      bool
-	closeConnectionsOnHostSetChange?: bool
-	consistentHashingLbConf?:         #ConsistentHashingLbConfig
+	healthy_panic_threshold?:              #Percent
+	zone_aware_lb_conf?:                   #ZoneAwareLbConfig
+	locality_weighted_lb_conf?:            #LocalityWeightedLbConfig
+	consistent_hashing_lb_conf?:           #ConsistentHashingLbConfig
+	update_merge_window?:                  #Duration
+	ignore_new_hosts_until_first_hc?:      bool
+	close_connections_on_host_set_change?: bool
 }
 
-#ConsistentHashingLbConfig: {
-	useHostnameForHashing?: bool
-}
+#Percent: value?: float64
 
-#LeastRequestLbConfig: {
-	choiceCount?: uint32
+#ZoneAwareLbConfig: {
+	routing_enabled?:       #Percent
+	min_cluster_size?:      uint64
+	fail_traffic_on_panic?: bool
 }
 
 #LocalityWeightedLbConfig: {
 }
 
-#OriginalDstLbConfig: {
-	useHTTPHeader?: bool
+#ConsistentHashingLbConfig: use_hostname_for_hashing?: bool
+
+#Duration: {
+	seconds?: int64
+	nanos?:   int32
 }
 
-#RingHashLbConfig: {
-	minimumRingSize?: uint64
-	hashFunc?:        uint32
-	maximumRingSize?: uint64
-}
-
-#ZoneAwareLbConfig: {
-	routingEnabled?:     #Percent
-	minClusterSize?:     uint64
-	failTrafficOnPanic?: bool
-}
-
-#Cluster: {
-	cluster_key:  string
-	zone_key:     string
-	name:         string
-	require_tls?: bool
-	secret?:      #Secret
-	ssl_config?:  #SSLConfig
-	instances?: [...#Instance]
-	org_key?: string
-	// modified from protobuf
-	circuit_breakers?:  #CircuitBreakers | #CircuitBreakersThresholds | *null
-	outlier_detection?: #OutlierDetection | *null
-	health_checks?: [...#HealthCheck]
-	lb_policy?:              string | *""
-	http_protocol_options?:  #HTTPProtocolOptions
-	http2_protocol_options?: #HTTP2ProtocolOptions
-	protocol_selection?:     string
-	ring_hash_lb_conf?:      #RingHashLbConfig
-	original_dst_lb_conf?:   #OriginalDstLbConfig
-	least_request_lb_conf?:  #LeastRequestLbConfig
-	common_lb_conf?:         #CommonLbConfig
-	checksum?:               #Checksum
-}
-
-#Instance: {
-	host: string
-	port: int64
-	metadata?: [...#Metadata]
-}
-
-#Clusters: {
-	clusters?: [...#Cluster]
-}
-
-#Domain: {
-	domain_key: string
-	zone_key:   string
-	// Name is a virtual host pattern
-	name: string | *"*"
-	// Port should probably match Listener
-	port:         int64
-	ssl_config?:  #SSLConfig | null
-	redirects?:   [...#Redirect] | *null
-	cors_config?: #CorsConfig | *null
-	aliases?:     [...string] | *null
-	org_key?:     string
-	force_https?: bool | *false
-	custom_headers?: [...#Header]
-	checksum?: #Checksum
-	// not in protobuf?
-	gzip_enabled?: bool | *false
-}
-
-#CorsConfig: {
-	allowedOrigins?: [...#AllowOriginStringMatchItem]
-	allowCredentials?: bool
-	exposedHeaders?: [...string]
-	maxAge?: int64
-	allowedMethods?: [...string]
-	allowedHeaders?: [...string]
-}
-
-#AllowOriginStringMatchItem: {
-	matchType?: string
-	value?:     string
-}
+// Route
 
 #Route: {
-	route_key:  string
-	domain_key: string
-	zone_key:   string
-	// path is deprecated (remove it?)
-	path?:             string
-	route_match?:      #RouteMatch
-	prefix_rewrite?:   string | *null
-	redirects?:        [...#Redirect] | null
+	route_key:       string
+	domain_key:      string
+	zone_key:        string
+	prefix_rewrite?: string
+	cohort_seed?:    string
+	high_priority?:  bool
+	timeout?:        string
+	idle_timeout?:   string
+	rules: [...#Rule]
+	route_match:    #RouteMatch
+	response_data?: #ResponseData
+	retry_policy?:  #RetryPolicy
+	filter_metadata?: [string]: #Metadata
+	filter_configs?: [string]: {...}
+	request_headers_to_add?: [...#Metadatum]
+	response_headers_to_add?: [...#Metadatum]
+	request_headers_to_remove?: [...string]
+	response_headers_to_remove?: [...string]
+	redirects: [...#Redirect]
 	shared_rules_key?: string
-	rules:             [...#Rule] | *null
-	response_data?:    #ResponseData
-	cohort_seed?:      string | *null
-	retry_policy?:     #RetryPolicy | *null
-	high_priority?:    bool
-	filter_metadata?:  {
-		[string]: [...#Metadatum]
-	} | null
-	filter_configs?: {
-		[string]: #Any
-	}
-	timeout?:                    string
-	idle_timeout?:               string
-	org_key?:                    string
-	request_headers_to_add?:     [...#Header] | null
-	request_headers_to_remove?:  [...string] | null
-	response_headers_to_add?:    [...#Header] | null
-	response_headers_to_remove?: [...string] | null
-	checksum?:                   #Checksum
 }
 
 #RouteMatch: {
 	path:       string
 	match_type: string
+}
+
+#Rule: {
+	rule_key?: string
+	methods?: [...string]
+	matches?: [...#Match]
+	constraints?: #Constraints
+	cohort_seed?: string
+}
+
+#Match: {
+	kind?:     string
+	behavior?: string
+	from?:     #Metadatum
+	to?:       #Metadatum
+}
+
+#Constraints: {
+	light: [...#Constraint]
+	dark?: [...#Constraint]
+	tap?: [...#Constraint]
+}
+
+#Constraint: {
+	cluster_key: string
+	metadata?: [...#Metadata]
+	properties?: [...#Metadata]
+	response_data?: #ResponseData
+	weight:         uint32
+}
+
+#ResponseData: {
+	headers?: [...#HeaderDatum]
+	cookies?: [...#CookieDatum]
+}
+
+#HeaderDatum: response_datum?: #ResponseDatum
+
+#ResponseDatum: {
+	name?:             string
+	value?:            string
+	value_is_literal?: bool
+}
+
+#CookieDatum: {
+	response_datum?: #ResponseDatum
+	expires_in_sec?: uint32
+	domain?:         string
+	path?:           string
+	secure?:         bool
+	http_only?:      bool
+	same_site?:      string
+}
+
+#RetryPolicy: {
+	num_retries?:                       int64
+	per_try_timeout_msec?:              int64
+	timeout_msec?:                      int64
+	retry_on?:                          string
+	retry_priority?:                    string
+	retry_host_predicate?:              string
+	host_selection_retry_max_attempts?: int64
+	retriable_status_codes?:            int64
+	retry_back_off?:                    #BackOff
+	retriable_headers?:                 #HeaderMatcher
+	retriable_request_headers?:         #HeaderMatcher
+}
+
+#BackOff: {
+	base_interval?: string
+	max_interval?:  string
+}
+
+#HeaderMatcher: {
+	name?:             string
+	exact_match?:      string
+	regex_match?:      string
+	safe_regex_match?: #RegexMatcher
+	range_match?:      #RangeMatch
+	present_match?:    bool
+	prefix_match?:     string
+	suffix_match?:     string
+	invert_match?:     bool
+}
+
+#RegexMatcher: {
+	google_re2?: #GoogleRe2
+	regex?:      string
+}
+
+#GoogleRe2: max_program_size?: int64
+
+#RangeMatch: {
+	start?: int64
+	end?:   int64
+}
+
+// Domain
+
+#Domain: {
+	domain_key:   string
+	zone_key:     string
+	name:         string
+	port:         int32
+	force_https?: bool
+	cors_config?: #CorsConfig
+	aliases?: [...string]
+
+	// common.cue
+	ssl_config?: #SSLConfig
+	redirects?: [...#Redirect]
+	custom_headers?: [...#Metadatum]
+}
+
+#CorsConfig: {
+	allowed_origins?: [...#AllowOriginStringMatchItem]
+	allow_credentials?: bool
+	exposed_headers?: [...string]
+	max_age?: int64
+	allowed_methods?: [...string]
+	allowed_headers?: [...string]
+}
+
+#AllowOriginStringMatchItem: {
+	match_type?: string
+	value?:      string
+}
+
+// Listener
+
+#Listener: {
+	name:         string
+	listener_key: name
+	zone_key:     string
+	ip:           string
+	port:         int32
+	protocol:     string
+	domain_keys: [...string]
+	active_http_filters?: [...string]
+	http_filters?: #HTTPFilters
+	active_network_filters?: [...string]
+	network_filters?:       #NetworkFilters
+	stream_idle_timeout?:   string
+	request_timeout?:       string
+	drain_timeout?:         string
+	delayed_close_timeout?: string
+	use_remote_address?:    bool
+	tracing_config?:        #TracingConfig
+	access_loggers?:        #AccessLoggers
+
+	// common.cue
+	secret?:                 #Secret
+	http_protocol_options?:  #HTTPProtocolOptions
+	http2_protocol_options?: #HTTP2ProtocolOptions
+}
+
+#HTTPFilters: {
+	gm_metrics?: {
+		metrics_host:                               string
+		metrics_port:                               int
+		metrics_dashboard_uri_path:                 string
+		metrics_prometheus_uri_path:                string
+		metrics_ring_buffer_size:                   int
+		prometheus_system_metrics_interval_seconds: int
+		metrics_key_function:                       string
+		metrics_key_depth:                          string
+		metrics_receiver?: {
+			redis_connection_string?: string
+			nats_connection_string?:  string
+			push_interval_seconds:    int
+		}
+	}
+	gm_observables?: topic: string
+}
+
+#NetworkFilters: envoy_tcp_proxy?: {
+	cluster:     string
+	stat_prefix: string
+}
+
+#TracingConfig: {
+	ingress?: bool
+	request_headers_for_tags?: [...string]
+}
+
+#AccessLoggers: {
+	http_connection_loggers?: #Loggers
+	http_upstream_loggers?:   #Loggers
+}
+
+#Loggers: {
+	disabled?: bool
+	file_loggers?: [...#FileAccessLog]
+	h_ttpgrpc_access_loggers?: [...#HTTPGRPCAccessLog]
+}
+
+#FileAccessLog: {
+	path?:   string
+	format?: string
+	json_format?: [string]:       string
+	typed_json_format?: [string]: string
+}
+
+#HTTPGRPCAccessLog: {
+	common_config?: #GRPCCommonConfig
+	additional_request_headers?: [...string]
+	additional_response_headers?: [...string]
+	additional_response_trailers?: [...string]
+}
+
+#GRPCCommonConfig: {
+	log_name?:      string
+	g_rpc_service?: #GRPCService
+}
+
+#GRPCService: {
+	cluster_name?: string
+}
+
+// Proxy
+
+#Proxy: {
+	name:      string
+	proxy_key: string
+	zone_key:  string
+	domain_keys: [...string]
+	listener_keys: [...string]
+	upgrades?: string
+}
+
+// CatalogService
+
+#CatalogService: {
+	mesh_id:                   string
+	service_id:                string
+	name:                      string
+	api_endpoint?:             string
+	api_spec_endpoint?:        string
+	description?:              string
+	enable_instance_metrics:   bool
+	enable_historical_metrics: bool
+}
+
+// Common
+
+#Metadata: metadata?: [...#Metadatum]
+
+#Metadatum: {
+	key:   string
+	value: string
+}
+
+#Secret: {
+	secret_key?:             string
+	secret_name?:            string
+	secret_validation_name?: string
+	subject_names?: [...string]
+	ecdh_curves?: [...string]
+	forward_client_cert_details?:     string
+	set_current_client_cert_details?: #SetCurrentClientCertDetails
+}
+
+#SetCurrentClientCertDetails: uri: bool
+
+#SSLConfig: {
+	cipher_filter?: string
+	protocols?: [...string]
+	cert_key_pairs?: [...#CertKeyPathPair]
+	require_client_certs?: bool
+	trust_file?:           string
+	sni?: [...string]
+	crl?: #DataSource
+}
+
+#CertKeyPathPair: {
+	certificate_path?: string
+	key_path?:         string
+}
+
+#DataSource: {
+	filename?:      string
+	inline_string?: string
+}
+
+#HTTPProtocolOptions: {
+	allow_absolute_url?:      bool
+	accept_http10?:           bool
+	default_host_for_http10?: string
+	header_key_format?:       #HeaderKeyFormat
+	enable_trailers?:         bool
+}
+
+#HeaderKeyFormat: proper_case_words?: bool
+
+#HTTP2ProtocolOptions: {
+	hpack_table_size?:                                     uint32
+	max_concurrent_streams?:                               uint32
+	initial_stream_window_size?:                           uint32
+	initial_connection_window_size?:                       uint32
+	allow_connect?:                                        bool
+	max_outbound_frames?:                                  uint32
+	max_outbound_control_frames?:                          uint32
+	max_consecutive_inbound_frames_with_empty_payload?:    uint32
+	max_inbound_priority_frames_per_stream?:               uint32
+	max_inbound_window_update_frames_per_data_frame_sent?: uint32
+	stream_error_on_invalid_http_messaging?:               bool
 }
 
 #Redirect: {
@@ -452,87 +469,14 @@ package greymatter
 	header_constraints?: [...#HeaderConstraint]
 }
 
-#Header: {
-	key?:   string
-	value?: string
-}
-
-#RetryPolicy: {
-	num_retries?:                    int64
-	per_try_timeout_msec?:             int64
-	timeout_msec?:                   int64
-	retry_on?:                       string
-	retry_priority?:                 string
-	retry_host_predicate?:            string
-	host_selection_retry_max_attempts?: int64
-	retriable_status_codes?:          int64
-	retry_back_off?:                  #BackOff
-	retriable_headers?:              #HeaderMatcher
-	retriable_request_headers?:       #HeaderMatcher
-}
-
-#RetriableHeaders: {
-	name?:           string
-	exactMatch?:     string
-	regexMatch?:     string
-	safeRegexMatch?: #RegexMatcher
-	rangeMatch?:     #RangeMatch
-	presentMatch?:   bool
-	prefixMatch?:    string
-	suffixMatch?:    string
-	invertMatch?:    bool
-}
-
-#RetriableRequestHeaders: {
-	name?:           string
-	exactMatch?:     string
-	regexMatch?:     string
-	safeRegexMatch?: #RegexMatcher
-	rangeMatch?:     #RangeMatch
-	presentMatch?:   bool
-	prefixMatch?:    string
-	suffixMatch?:    string
-	invertMatch?:    bool
-}
-
-#SafeRegexMatch: {
-	googleRE2?: #GoogleRe2
-	regex?:     string
-}
-
-#HeaderMatcher: {
-	name?:           string
-	exactMatch?:     string
-	regexMatch?:     string
-	safeRegexMatch?: #RegexMatcher
-	rangeMatch?:     #RangeMatch
-	presentMatch?:   bool
-	prefixMatch?:    string
-	suffixMatch?:    string
-	invertMatch?:    bool
-}
-
-#RangeMatch: {
-	start?: int64
-	end?:   int64
-}
-
-#RegexMatcher: {
-	googleRE2?: #GoogleRe2
-	regex?:     string
-}
-
-#BackOff: {
-	baseInterval?: string
-	maxInterval?:  string
-}
-
 #HeaderConstraint: {
-	name?:          string
-	value?:         string
-	caseSensitive?: bool
-	invert?:        bool
+	name?:           string
+	value?:          string
+	case_sensitive?: bool
+	invert?:         bool
 }
+
+// Shared Rules
 
 #AllConstraints: {
 	light?: [...#ClusterConstraint] | *null
@@ -567,168 +511,4 @@ package greymatter
 	properties?:      [...#Metadata] | *null
 	retry_policy?:    #RetryPolicy | *null
 	org_key?:         string
-	checksum?:        #Checksum
-}
-
-#Rule: {
-	ruleKey?: string
-	methods?: [...string]
-	matches?: [...#Match]
-	constraints?: #AllConstraints
-	cohort_seed?: string
-}
-
-#Match: {
-	kind?:     string
-	behavior?: string
-	from?:     #Metadatum
-	to?:       #Metadatum
-}
-
-#Mesh: {
-	name?:     string
-	zone_key?: string
-	roots?: [...#Service]
-	orphans?: #Orphans
-}
-
-#Orphans: {
-	listeners?: [...#Listener]
-	domains?: [...#Domain]
-	routes?: [...#RouteTree]
-	shared_rules?: [...#SharedRules]
-	clusters?: [...#Cluster]
-}
-
-#Org: {
-	org_key?:      string
-	name?:         string
-	contactEmail?: string
-	checksum?:     #Checksum
-}
-
-// A PolicyRequest requests a versioned list of all API objects
-#PolicyRequest: {
-	// The policy_version field should be utilized as a tracker for the current state of the mesh.
-	// This means that if properly implemented, API could rollback as well as allow requesting of specific API versions
-	// handling the case of incorrect or broken config. This should act as a counter when new objects are created or changed
-	// and should be atomic in nature.
-	policyVersion?: string
-
-	// The stream_nonce field acts as a counter for actions taken across the stream. This should be all logged as all
-	// requests and responses.
-	streamNonce?: string
-
-	// The policy_type identifies what the API should send back in the response. If left blank the API should respond as a wildcard with all resources
-	policyType?: string
-}
-
-// A PolicyResponse
-#PolicyResponse: {
-	// The policy_version field should be utilized as a tracker for the current state of the mesh.
-	// This means that if properly implemented, API could rollback as well as allow requesting of specific API versions
-	// handling the case of incorrect or broken config. This should act as a counter when new objects are created or changed
-	// and should be atomic in nature. When responding to a request, the policy_version should contain the applied version as an ACK.
-	// If the version is not agreed upon between the API and Control, then an error has ocurred and the user should be notified.
-	policyVersion?: string
-
-	// The stream_nonce field acts as a counter for actions taken across the stream. This should be all logged as all
-	// requests and responses.
-	streamNonce?: string
-
-	// The resources field will contain the serialized bytes that are to be sent to the Control server. Contained will be
-	// objects that have been modified, added, or deleted. It is a state holder that Control can read and apply.
-	resources?: [...#Resource]
-
-	// The status represents status codes according to the action taken.
-	// If an application of config was successful, a 200 should be sent back, etc...
-	status?: #Status
-
-	// Error contains error information. If empty then the API server can assume that no error has occurred.
-	error?: string
-}
-
-// Resource contains mesh policies that must flow down to Control
-#Resource: {
-	// Type will define the type of resource this wrapper object holds
-	type?: string
-
-	// Serialized bytes that will be sent through containing the resourece itself
-	resource?: bytes
-}
-
-#Proxy: {
-	proxy_key: string
-	zone_key:  string
-	name:      string
-	domain_keys: [...string]
-	listener_keys: [...string]
-	listeners: [...#Listener] | *null
-	upgrades?: string
-	active_filters?: [...string]
-	filters?:  _
-	org_key?:  string
-	checksum?: #Checksum
-}
-
-#Service: {
-	name?:     string
-	proxy?:    #Proxy
-	zone_key?: string
-	listeners?: [...#Listener]
-	domains?: [...#DomainTree]
-}
-
-#DomainTree: {
-	domain?: #Domain
-	routes?: [...#RouteTree]
-}
-
-#RouteTree: {
-	route?: #Route
-	shared_rules?: [...#SharedRulesTree]
-	rule_tree?: #RuleTree
-}
-
-#RuleTree: {
-	rule?: #Rule
-	clusters?: [...#DeepCluster]
-}
-
-#SharedRulesTree: {
-	shared_rules?: #SharedRules
-	clusters?: [...#DeepCluster]
-}
-
-#DeepCluster: {
-	cluster?: #Cluster
-	service?: #Service
-}
-
-#Zone: {
-	zone_key?: string
-	name?:     string
-	org_key?:  string
-	checksum?: #Checksum
-}
-
-// The `Status` type defines a logical error model that is suitable for
-// different programming environments, including REST APIs and RPC APIs. It is
-// used by [gRPC](https://github.com/grpc). Each `Status` message contains
-// three pieces of data: error code, error message, and error details.
-//
-// You can find out more about this error model and how to work with it in the
-// [API Design Guide](https://cloud.google.com/apis/design/errors).
-#Status: {
-	// The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-	code?: int32
-
-	// A developer-facing error message, which should be in English. Any
-	// user-facing error message should be localized and sent in the
-	// [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-	message?: string
-
-	// A list of messages that carry the error details.  There is a common set of
-	// message types for APIs to use.
-	details?: [...#Any]
 }
