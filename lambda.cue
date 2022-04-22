@@ -5,7 +5,7 @@ domains: "lambda": {
 	custom_headers: [
 		{
 			key:   "Host"
-			value: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
+			value: "BADe6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 		},
 	]
 }
