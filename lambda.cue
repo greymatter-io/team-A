@@ -5,7 +5,7 @@ domains: "lambda": {
 	custom_headers: [
 		{
 			key:   "Host"
-			value: "BADe6wzyjcwga.execute-api.us-east-1.amazonaws.com"
+			value: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 		},
 	]
 }
@@ -62,7 +62,7 @@ routes: {
 
 clusters: "lambda-to-lambda:443": {
 	instances: [{
-		host: "e6wzyjcwga.execute-api.us-east-1.amazonaws.com"
+		host: "BADe6wzyjcwga.execute-api.us-east-1.amazonaws.com"
 		port: 443
 	}]
 	ssl_config: {
