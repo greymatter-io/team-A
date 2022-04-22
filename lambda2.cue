@@ -44,7 +44,7 @@ routes: {
 			path:       "/"
 			match_type: "prefix"
 		}
-		prefix_rewrite: "/cap-one-lambda2-demo"
+		prefix_rewrite: "/cap-one-lambda-demo"
 		rules: [
 			{
 				constraints: {
