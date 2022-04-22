@@ -243,6 +243,33 @@ routes: {
 			},
 		]
 	}
+	lambda2: {
+		domain_key: "edge"
+		route_match: {
+			match_type: "prefix"
+			path:       "/gateways/lambda2/"
+		}
+		redirects: [
+			{
+				from:          "^/gateways/lambda2$"
+				redirect_type: "permanent"
+				to:            "/gateways/lambda2/"
+			},
+		]
+		prefix_rewrite: "/"
+		rules: [
+			{
+				constraints: {
+					light: [
+						{
+							cluster_key: "lambda2"
+							weight:      1
+						},
+					]
+				}
+			},
+		]
+	}
 }
 
 clusters: {
