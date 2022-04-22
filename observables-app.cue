@@ -6,7 +6,8 @@ listeners: "observables-app": {
 	port: 10808
 	domain_keys: ["observables-app"]
 	active_http_filters: [
-		"gm.metrics"
+		"gm.metrics",
+		"gm.observables"
 	]
 	http_filters: {
 		gm_metrics: {
